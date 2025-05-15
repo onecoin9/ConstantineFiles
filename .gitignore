@@ -1,0 +1,93 @@
+# Build and Release Folders
+bin-debug/
+bin-release/
+[Oo]bj/
+[Bb]in/
+
+# Other files and folders
+.settings/
+<<<<<<< HEAD
+.vs/
+=======
+>>>>>>> 23ae3930d9525ab731063662a739e3560e2a1ffe
+
+# Executables
+*.swf
+*.air
+*.ipa
+*.apk
+
+# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
+# should NOT be excluded as they contain compiler settings and other important
+# information for Eclipse / Flash Builder.
+<<<<<<< HEAD
+# Qt 特定文件
+*.pro.user
+*.pro.user.*
+*.qmake.stash
+.qmake.cache
+.qmake.stash
+*.qm
+moc_*.cpp
+qrc_*.cpp
+ui_*.h
+Makefile*
+*build-*
+
+# 编译输出目录
+debug/
+release/
+x64/
+Win32/
+.vs/
+*_resource.rc
+*.aps
+*.exp
+*.idb
+*.ilk
+*.pdb
+*.ipdb
+*.iobj
+
+# 编译生成的文件
+*.o
+*.obj
+*.dll
+*.lib
+*.a
+*.exe
+*.dylib
+*.so
+*.so.*
+
+# Qt Creator 生成的文件
+CMakeLists.txt.user*
+
+# Visual Studio 生成的文件
+*.sdf
+*.opensdf
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.vs/
+ipch/
+*.VC.db
+*.VC.VC.opendb
+*.VC.opendb
+
+# 临时文件
+*.swp
+*~
+.DS_Store
+Thumbs.db
+
+# 项目特定的忽略
+# 忽略 bin 目录下的可执行文件和库文件
+bin/*.exe
+bin/*.dll
+
+# 日志文件
+*.log
+=======
+>>>>>>> 23ae3930d9525ab731063662a739e3560e2a1ffe

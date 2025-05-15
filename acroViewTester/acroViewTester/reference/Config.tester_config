@@ -1,0 +1,330 @@
+{
+    "BinConfig": {
+        "BinList": [
+        ],
+        "DefaultFail": {
+            "Comment": "",
+            "Disable": false,
+            "HW_BIN": "255",
+            "IsPassBin": false,
+            "Name": "Default_FAIL",
+            "SW_BIN": "255"
+        },
+        "DefaultPass": {
+            "Comment": "",
+            "Disable": false,
+            "HW_BIN": "1",
+            "IsPassBin": true,
+            "Name": "Default_PASS",
+            "SW_BIN": "1"
+        }
+    },
+    "FlowConfig": {
+        "TestItems": [
+            {
+                "Alias": "管脚通断测试",
+                "ClassName": "电学测试",
+                "Comment": "压降",
+                "FailDo": "",
+                "LoopCount": 1,
+                "PassDo": "",
+                "TestItemID": "1001-1",
+                "TestMode": "Skip"
+            },
+            {
+                "Alias": "上电电流测试",
+                "ClassName": "电学测试",
+                "Comment": "VDDI电压 &电流",
+                "FailDo": "",
+                "LoopCount": 1,
+                "PassDo": "",
+                "TestItemID": "1001-2",
+                "TestMode": "Skip"
+            },
+            {
+                "Alias": "----",
+                "ClassName": "频率筛选",
+                "Comment": "输出频率",
+                "FailDo": "",
+                "LoopCount": 1,
+                "PassDo": "",
+                "TestItemID": "1002",
+                "TestMode": "Test"
+            },
+            {
+                "Alias": "----",
+                "ClassName": "标度标定",
+                "Comment": "时间间隔/采样点数/采集轴向",
+                "FailDo": "",
+                "LoopCount": 1,
+                "PassDo": "",
+                "TestItemID": "1003",
+                "TestMode": "Test"
+            },
+            {
+                "Alias": "----",
+                "ClassName": "功能安全标定",
+                "Comment": "no comment",
+                "FailDo": "",
+                "LoopCount": 1,
+                "PassDo": "",
+                "TestItemID": "1004",
+                "TestMode": "Test"
+            },
+            {
+                "Alias": "----",
+                "ClassName": "烧写OTP",
+                "Comment": "IDATA",
+                "FailDo": "",
+                "LoopCount": 1,
+                "PassDo": "",
+                "TestItemID": "1005",
+                "TestMode": "Test"
+            },
+            {
+                "Alias": "读取Phase信息",
+                "ClassName": "PSI5下测试",
+                "Comment": "no comment",
+                "FailDo": "",
+                "LoopCount": 1,
+                "PassDo": "",
+                "TestItemID": "1006-1",
+                "TestMode": "Test"
+            },
+            {
+                "Alias": "读取传感器输出零位噪声",
+                "ClassName": "PSI5下测试",
+                "Comment": "采样点数/产品类型",
+                "FailDo": "",
+                "LoopCount": 1,
+                "PassDo": "",
+                "TestItemID": "1006-2",
+                "TestMode": "Test"
+            },
+            {
+                "Alias": "读取曼码电流",
+                "ClassName": "PSI5下测试",
+                "Comment": "Base/Delta",
+                "FailDo": "",
+                "LoopCount": 1,
+                "PassDo": "",
+                "TestItemID": "1006-3",
+                "TestMode": "Test"
+            },
+            {
+                "Alias": "测量Bit时间",
+                "ClassName": "PSI5下测试",
+                "Comment": "Bit time",
+                "FailDo": "",
+                "LoopCount": 1,
+                "PassDo": "",
+                "TestItemID": "1006-4",
+                "TestMode": "Test"
+            },
+            {
+                "Alias": "测量t delay",
+                "ClassName": "PSI5下测试",
+                "Comment": "no comment",
+                "FailDo": "",
+                "LoopCount": 1,
+                "PassDo": "",
+                "TestItemID": "1006-5",
+                "TestMode": "Test"
+            },
+            {
+                "Alias": "同步脉冲VDD Base",
+                "ClassName": "PSI5下测试",
+                "Comment": "VDD Base",
+                "FailDo": "",
+                "LoopCount": 1,
+                "PassDo": "",
+                "TestItemID": "1006-5",
+                "TestMode": "Test"
+            },
+            {
+                "Alias": "异步通信模式",
+                "ClassName": "PSI5下测试",
+                "Comment": "no comment",
+                "FailDo": "",
+                "LoopCount": 1,
+                "PassDo": "",
+                "TestItemID": "1006-5",
+                "TestMode": "Test"
+            },
+            {
+                "Alias": "双时间槽通信模式",
+                "ClassName": "PSI5下测试",
+                "Comment": "no comment",
+                "FailDo": "",
+                "LoopCount": 1,
+                "PassDo": "",
+                "TestItemID": "1006-5",
+                "TestMode": "Test"
+            }
+        ]
+    },
+    "PinConfig": {
+        "PinGroupList": [
+            {
+                "Comment": "",
+                "Disable": false,
+                "Name": "SPI_PINS",
+                "Value": "SPI_CS + SPI_SCLK + SPI_MISO + SPI_MOSI"
+            },
+            {
+                "Comment": "",
+                "Disable": false,
+                "Name": "QSPI_PINS",
+                "Value": "SPI_PINS + SPI_WP + SPI_HOLD"
+            }
+        ],
+        "Pins": {
+            "PinList": [
+                {
+                    "Comment": "",
+                    "Disable": false,
+                    "Name": "SPI_CS",
+                    "PinType": "IO",
+                    "Sites": [
+                        "119"
+                    ]
+                },
+                {
+                    "Comment": "",
+                    "Disable": false,
+                    "Name": "SPI_SCLK",
+                    "PinType": "IO",
+                    "Sites": [
+                        "11D"
+                    ]
+                },
+                {
+                    "Comment": "",
+                    "Disable": false,
+                    "Name": "SPI_MOSI",
+                    "PinType": "IO",
+                    "Sites": [
+                        "11F"
+                    ]
+                },
+                {
+                    "Comment": "",
+                    "Disable": false,
+                    "Name": "SPI_MISO",
+                    "PinType": "IO",
+                    "Sites": [
+                        "11E"
+                    ]
+                },
+                {
+                    "Comment": "",
+                    "Disable": false,
+                    "Name": "SPI_WP",
+                    "PinType": "IO",
+                    "Sites": [
+                        "11B"
+                    ]
+                },
+                {
+                    "Comment": "",
+                    "Disable": false,
+                    "Name": "SPI_HOLD",
+                    "PinType": "IO",
+                    "Sites": [
+                        "11A"
+                    ]
+                },
+                {
+                    "Comment": "",
+                    "Disable": false,
+                    "Name": "VCC",
+                    "PinType": "IO",
+                    "Sites": [
+                        "11C"
+                    ]
+                }
+            ],
+            "SiteCount": 1
+        }
+    },
+    "SpecConfig": {
+        "SpecList": [
+            {
+                "AliasName": "上电电流测试",
+                "BinName": "Bin_1001-2",
+                "Commment": "",
+                "Limit1Lower": "10",
+                "Limit1Upper": "100",
+                "Limit2Lower": "3.0",
+                "Limit2Upper": "3.6",
+                "Limit3Lower": "0.1",
+                "Limit3Upper": "1.0",
+                "Params1Name": "电流",
+                "Params1Value": "",
+                "Params2Name": "电压",
+                "Params2Value": "",
+                "Params3Name": "功率",
+                "Params3Value": "",
+                "SpecItemID": "1001A",
+                "TestItemName": "电学测试"
+            },
+            {
+                "AliasName": "频率测试",
+                "BinName": "Bin_1002",
+                "Commment": "",
+                "Limit1Lower": "900",
+                "Limit1Upper": "1100",
+                "Limit2Lower": "4",
+                "Limit2Upper": "6",
+                "Limit3Lower": "40",
+                "Limit3Upper": "50",
+                "Params1Name": "频率",
+                "Params1Value": "",
+                "Params2Name": "幅值",
+                "Params2Value": "",
+                "Params3Name": "相位",
+                "Params3Value": "",
+                "SpecItemID": "1002",
+                "TestItemName": "频率筛选"
+            },
+            {
+                "AliasName": "标定测试",
+                "BinName": "Bin_1003",
+                "Commment": "",
+                "Limit1Lower": "5",
+                "Limit1Upper": "15",
+                "Limit2Lower": "90",
+                "Limit2Upper": "110",
+                "Limit3Lower": "N/A",
+                "Limit3Upper": "N/A",
+                "Params1Name": "时间间隔",
+                "Params1Value": "",
+                "Params2Name": "采样点数",
+                "Params2Value": "",
+                "Params3Name": "采集轴向",
+                "Params3Value": "X",
+                "SpecItemID": "1003",
+                "TestItemName": "标度标定"
+            },
+            {
+                "AliasName": "安全测试",
+                "BinName": "Bin_1004",
+                "Commment": "",
+                "Limit1Lower": "10",
+                "Limit1Upper": "15",
+                "Limit2Lower": "1.0",
+                "Limit2Upper": "2.0",
+                "Limit3Lower": "15",
+                "Limit3Upper": "20",
+                "Params1Name": "安全电压",
+                "Params1Value": "",
+                "Params2Name": "安全电流",
+                "Params2Value": "",
+                "Params3Name": "安全功率",
+                "Params3Value": "",
+                "SpecItemID": "1004",
+                "TestItemName": "功能安全标定"
+            }
+        ]
+    }
+}
