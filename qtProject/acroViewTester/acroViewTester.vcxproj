@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{12B5D7FC-7317-4C49-8D52-24426EAB43B1}</ProjectGuid>
+    <Keyword>QtVS_v304</Keyword>
+    <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">10.0</WindowsTargetPlatformVersion>
+    <QtMsBuild Condition="'$(QtMsBuild)'=='' OR !Exists('$(QtMsBuild)\qt.targets')">$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt_defaults.props')">
+    <Import Project="$(QtMsBuild)\qt_defaults.props" />
+  </ImportGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
+    <QtInstall>msvc2015_64</QtInstall>
+    <QtModules>core;sql;network;gui;axcontainer;widgets;charts</QtModules>
+    <QtBuildConfig>debug</QtBuildConfig>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
+    <QtInstall>msvc2015_64</QtInstall>
+    <QtModules>core;network;gui;axcontainer;widgets</QtModules>
+    <QtBuildConfig>release</QtBuildConfig>
+  </PropertyGroup>
+  <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
+    <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
+  </Target>
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="Shared" />
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(QtMsBuild)\Qt.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(QtMsBuild)\Qt.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <IncludePath>$(ProjectDir)depend\include\QXlsx;D:\Qt\5.15.2\msvc2015_64\include\QtXlsx;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)depend\lib;$(ProjectDir)Plugins\AutoMatic;D:\Qt\5.15.2\msvc2015_64\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <PostBuildEvent>
+      <Command>xcopy /Y /I $(TargetPath) D:\aaa\</Command>
+    </PostBuildEvent>
+    <Link>
+      <AdditionalLibraryDirectories>$(Qt_LIBS_);D:\Qt\5.15.2\msvc2015_64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>QXlsx.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\qtxlsx\include\QtXlsx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\qtxlsx\include\QtXlsx;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>UNICODE;_UNICODE;WIN32;_ENABLE_EXTENDED_ALIGNED_STORAGE;WIN64;QT_NO_DEBUG;NDEBUG;ABSTRACTPARSER_LIB;QT_CONCURRENT_LIB;QT_CORE_LIB;QT_GUI_LIB;QT_NETWORK_LIB;QT_SERIALPORT_LIB;QT_SVG_LIB;QT_UITOOLS_LIB;QT_WIDGETS_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
+    <ClCompile>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="Configuration">
+    <ClCompile>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="appdata.cpp" />
+    <ClCompile Include="assistFunc.cpp" />
+    <ClCompile Include="AutomaticManager\ACAutomaticManager.cpp" />
+    <ClCompile Include="AutomaticManager\AuthUtils.cpp" />
+    <ClCompile Include="AutomaticManager\AutoMessageServer.cpp" />
+    <ClCompile Include="AutomaticManager\ExternalServer.cpp" />
+    <ClCompile Include="blockDetailDialog.cpp" />
+    <ClCompile Include="configDialog.cpp" />
+    <ClCompile Include="dataProcess.cpp" />
+    <ClCompile Include="directTriggerMenu.cpp" />
+    <ClCompile Include="dumpUtil.cpp" />
+    <ClCompile Include="handleAutomatic.cpp" />
+    <ClCompile Include="handleJson.cpp" />
+    <ClCompile Include="handleView.cpp" />
+    <ClCompile Include="inputDialog.cpp" />
+    <ClCompile Include="jsonRpcClient.cpp" />
+    <ClCompile Include="login.cpp" />
+    <ClCompile Include="measureDialog.cpp" />
+    <ClCompile Include="menubar.cpp" />
+    <ClCompile Include="peripheralControl.cpp" />
+    <ClCompile Include="productInfoModel.cpp" />
+    <ClCompile Include="qthelper.cpp" />
+    <ClCompile Include="roleAddDialog.cpp" />
+    <ClCompile Include="setting.cpp" />
+    <ClCompile Include="tcpIpModule.cpp" />
+    <ClCompile Include="testSite.cpp" />
+    <ClCompile Include="testSiteGrid.cpp" />
+    <ClCompile Include="userManagement.cpp">
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
+    </ClCompile>
+    <QtRcc Include="acroViewTester.qrc" />
+    <QtUic Include="acroViewTester.ui" />
+    <QtMoc Include="acroViewTester.h" />
+    <ClCompile Include="acroViewTester.cpp" />
+    <ClCompile Include="main.cpp" />
+    <QtUic Include="blockDetailDialog.ui" />
+    <QtUic Include="login.ui" />
+    <QtUic Include="measureDialog.ui" />
+    <QtUic Include="configDialog.ui" />
+    <QtUic Include="roleAddDialog.ui" />
+    <QtUic Include="setting.ui" />
+    <QtUic Include="tabAutoMatic.ui" />
+    <QtUic Include="testSite.ui" />
+    <QtUic Include="userManagement.ui" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="appdata.h" />
+    <QtMoc Include="inputDialog.h" />
+    <QtMoc Include="measureDialog.h" />
+    <QtMoc Include="roleAddDialog.h" />
+    <QtMoc Include="buttonDelegate.h" />
+    <QtMoc Include="tcpIpModule.h" />
+    <QtMoc Include="configDialog.h" />
+    <ClInclude Include="AutomaticManager\ACAutomaticManager.h" />
+    <QtMoc Include="AutomaticManager\AuthUtils.h" />
+    <QtMoc Include="AutomaticManager\AutoInterface.h" />
+    <QtMoc Include="AutomaticManager\automaticplugin_global.h" />
+    <QtMoc Include="AutomaticManager\AutoMessageServer.h" />
+    <QtMoc Include="AutomaticManager\ExternalServer.h" />
+    <QtMoc Include="jsonRpcClient.h" />
+    <ClInclude Include="testerDefinitions.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="version.h" />
+    <QtMoc Include="peripheralControl.h" />
+    <ClInclude Include="testSiteGrid.h" />
+    <QtMoc Include="userManagement.h" />
+    <QtMoc Include="testSite.h" />
+    <QtMoc Include="directTriggerMenu.h" />
+    <ClInclude Include="blockDetailDialog.h" />
+    <ClInclude Include="head.h" />
+    <QtMoc Include="login.h" />
+    <QtMoc Include="productInfoModel.h" />
+    <ClInclude Include="qthelper.h" />
+    <QtMoc Include="setting.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="qrc\pics\Acroview.ico" />
+    <Image Include="qrc\pics\Acroview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\..\..\Qt\5.15.2\msvc2015_64\lib\Qt5Xlsx.lib" />
+    <Library Include="..\..\..\..\Qt\5.15.2\msvc2015_64\lib\Qt5Xlsxd.lib" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
+    <Import Project="$(QtMsBuild)\qt.targets" />
+  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
