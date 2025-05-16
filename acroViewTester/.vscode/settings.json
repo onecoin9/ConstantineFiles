@@ -9,6 +9,7 @@
         "xiosbase": "cpp",
         "xstring": "cpp",
         "xtree": "cpp",
-        "string": "cpp"
+        "string": "cpp",
+        "regex": "cpp"
     }
 }

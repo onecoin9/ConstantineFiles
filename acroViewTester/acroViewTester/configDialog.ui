@@ -431,7 +431,7 @@ QTabWidget::pane {
           <number>0</number>
          </property>
          <property name="columnCount">
-          <number>17</number>
+          <number>9</number>
          </property>
          <column>
           <property name="text">
@@ -466,46 +466,6 @@ QTabWidget::pane {
          <column>
           <property name="text">
            <string>Limit&gt;</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>Params2</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>Value</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>Limit&lt;</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>Limit&gt;</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>Params3</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>Value</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>Limit&lt;</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>Limit &gt;</string>
           </property>
          </column>
          <column>

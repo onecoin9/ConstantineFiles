@@ -109,14 +109,26 @@ void ConfigDialog::initTableFlow()
 void ConfigDialog::initTableSpec()
 {
     ui->tableSpec->setRowCount(0);
-    ui->tableSpec->setColumnCount(17);
+    ui->tableSpec->setColumnCount(9);  // 减少列数
 
-    QStringList headers = { "ID", "TestItemName", "Alias Name", "Params1",  "Value","Limit<", "Limit>", "Params2", "Value", "Limit<", "Limit>", "Params3", "Value", "Limit<", "Limit>", "Bin Name", "Comment" };
+    QStringList headers = { 
+        "ID", 
+        "TestItemName", 
+        "Alias Name", 
+        "Params",      
+        "Value",
+        "Lower Limit", // 新增下限列
+        "Upper Limit", // 新增上限列
+        "Bin Name", 
+        "Comment" 
+    };
     ui->tableSpec->setHorizontalHeaderLabels(headers);
 
     ui->tableSpec->horizontalHeader()->setStretchLastSection(true);
     ui->tableSpec->verticalHeader()->setVisible(false);
     ui->tableSpec->setColumnWidth(1, 200);
+    ui->tableSpec->setColumnWidth(5, 100); 
+    ui->tableSpec->setColumnWidth(6, 100); 
     ui->tableSpec->setStyleSheet(tableStyleSheet);
 }
 void ConfigDialog::updateTableFlow()
@@ -193,28 +205,13 @@ void ConfigDialog::populateTableSpecRow(int row, const SpecItem& item)
     ui->tableSpec->setItem(row, 0, new QTableWidgetItem(item.id));
     ui->tableSpec->setItem(row, 1, new QTableWidgetItem(item.testItemName));
     ui->tableSpec->setItem(row, 2, new QTableWidgetItem(item.aliasName));
+    ui->tableSpec->setItem(row, 3, new QTableWidgetItem(item.params));
+    ui->tableSpec->setItem(row, 4, new QTableWidgetItem(item.value));
+    ui->tableSpec->setItem(row, 5, new QTableWidgetItem(item.lowerLimit));
+    ui->tableSpec->setItem(row, 6, new QTableWidgetItem(item.upperLimit));
+    ui->tableSpec->setItem(row, 7, new QTableWidgetItem(item.binName));
+    ui->tableSpec->setItem(row, 8, new QTableWidgetItem(item.comment));
 
-    // Params1
-    ui->tableSpec->setItem(row, 3, new QTableWidgetItem(item.params1Name));
-    ui->tableSpec->setItem(row, 4, new QTableWidgetItem(item.params1Value));
-    ui->tableSpec->setItem(row, 5, new QTableWidgetItem(item.limit1Lower));
-    ui->tableSpec->setItem(row, 6, new QTableWidgetItem(item.limit1Upper));
-
-    // Params2
-    ui->tableSpec->setItem(row, 7, new QTableWidgetItem(item.params2Name));
-    ui->tableSpec->setItem(row, 8, new QTableWidgetItem(item.params2Value));
-    ui->tableSpec->setItem(row, 9, new QTableWidgetItem(item.limit2Lower));
-    ui->tableSpec->setItem(row, 10, new QTableWidgetItem(item.limit2Upper));
-
-    // Params3
-    ui->tableSpec->setItem(row, 11, new QTableWidgetItem(item.params3Name));
-    ui->tableSpec->setItem(row, 12, new QTableWidgetItem(item.params3Value));
-    ui->tableSpec->setItem(row, 13, new QTableWidgetItem(item.limit3Lower));
-    ui->tableSpec->setItem(row, 14, new QTableWidgetItem(item.limit3Upper));
-
-    // Bin Name and Comment
-    ui->tableSpec->setItem(row, 15, new QTableWidgetItem(item.binName));
-    ui->tableSpec->setItem(row, 16, new QTableWidgetItem(item.comment));
 }
 
 void ConfigDialog::updateTableSpec()
@@ -246,6 +243,64 @@ void ConfigDialog::on_tableFlowTestModeChanged(int row, const QString& mode)
     }
 }
 
+void ConfigDialog::updateSpecFromFlow(const TestItem& flowItem)
+{
+    // Parse comment string to get parameters
+    QStringList params = parseCommentParams(flowItem.comment);
+    
+    // Generate spec items based on flow item
+    generateSpecItems(flowItem, params);
+    
+    // Update the spec table
+    updateTableSpec();
+}
+
+QStringList ConfigDialog::parseCommentParams(const QString& comment)
+{
+    // Split comment by separator (& or space)
+    QStringList params = comment.split(QRegExp("[&\\s]+"), Qt::SkipEmptyParts);
+    return params;
+}
+
+void ConfigDialog::generateSpecItems(const TestItem& flowItem, const QStringList& params)
+{
+    // Remove existing spec items for this flow item
+    auto it = specItems.begin();
+    while (it != specItems.end()) {
+        if (it->testItemName == flowItem.className && 
+            it->aliasName == flowItem.alias) {
+            it = specItems.erase(it);
+        } else {
+            ++it;
+        }
+    }
+
+    // Create new spec items for each parameter
+    for (int i = 0; i < params.size(); ++i) {
+        SpecItem specItem;
+        specItem.id = generateSpecItemID(flowItem.id, i);
+        specItem.testItemName = flowItem.className;
+        specItem.aliasName = flowItem.alias;
+        specItem.params = params[i];
+        specItem.value = "";
+        specItem.binName = QString("Bin_%1").arg(flowItem.id);
+        specItem.comment = "";
+
+        specItems.append(specItem);
+    }
+}
+
+QString ConfigDialog::generateSpecItemID(const QString& baseID, int index)
+{
+    return QString("%1%2").arg(baseID).arg(QChar('a' + index));
+}
+
+void ConfigDialog::syncSpecWithFlow()
+{
+    for (const TestItem& flowItem : testItems) {
+        updateSpecFromFlow(flowItem);
+    }
+}
 void ConfigDialog::on_btnInport_clicked(const QString& buttonId)
 {
     QString filePath = QFileDialog::getOpenFileName(this, tr("选择配置文件"), "", tr("JSON 文件 (*.json *.tester_config)"));
@@ -337,28 +392,13 @@ void ConfigDialog::on_btnInport_clicked(const QString& buttonId)
                     specItem.id = itemObj.value("SpecItemID").toString();
                     specItem.testItemName = itemObj.value("TestItemName").toString();
                     specItem.aliasName = itemObj.value("AliasName").toString();
-            
-                    // Params1
-                    specItem.params1Name = itemObj.value("Params1Name").toString();
-                    specItem.params1Value = itemObj.value("Params1Value").toString();
-                    specItem.limit1Lower = itemObj.value("Limit1Lower").toString();
-                    specItem.limit1Upper = itemObj.value("Limit1Upper").toString();
-            
-                    // Params2
-                    specItem.params2Name = itemObj.value("Params2Name").toString();
-                    specItem.params2Value = itemObj.value("Params2Value").toString();
-                    specItem.limit2Lower = itemObj.value("Limit2Lower").toString();
-                    specItem.limit2Upper = itemObj.value("Limit2Upper").toString();
-            
-                    // Params3
-                    specItem.params3Name = itemObj.value("Params3Name").toString();
-                    specItem.params3Value = itemObj.value("Params3Value").toString();
-                    specItem.limit3Lower = itemObj.value("Limit3Lower").toString();
-                    specItem.limit3Upper = itemObj.value("Limit3Upper").toString();
-            
-                    // Bin Name and Comment
-                    specItem.binName = itemObj.value("BinName").toString();            
-                    specItem.comment = itemObj.contains("Comment") ? itemObj.value("Comment").toString() : "";
+                    specItem.params = itemObj.value("Params").toString();
+                    specItem.value = itemObj.value("Value").toString();
+                    specItem.lowerLimit = itemObj.value("LowerLimit").toString(); // 添加下限
+                    specItem.upperLimit = itemObj.value("UpperLimit").toString(); // 添加上限
+                    specItem.binName = itemObj.value("BinName").toString();
+                    specItem.comment = itemObj.contains("Comment") ?
+                        itemObj.value("Comment").toString() : "";
 
                     specItems.append(specItem);
                 }
@@ -516,28 +556,12 @@ void ConfigDialog::on_btnExportSpec_clicked()
         specObject["SpecItemID"] = item.id;
         specObject["TestItemName"] = item.testItemName;
         specObject["AliasName"] = item.aliasName;
-
-        // Params1
-        specObject["Params1Name"] = item.params1Name;
-        specObject["Params1Value"] = item.params1Value;
-        specObject["Limit1Lower"] = item.limit1Lower;
-        specObject["Limit1Upper"] = item.limit1Upper;
-
-        // Params2
-        specObject["Params2Name"] = item.params2Name;
-        specObject["Params2Value"] = item.params2Value;
-        specObject["Limit2Lower"] = item.limit2Lower;
-        specObject["Limit2Upper"] = item.limit2Upper;
-
-        // Params3
-        specObject["Params3Name"] = item.params3Name;
-        specObject["Params3Value"] = item.params3Value;
-        specObject["Limit3Lower"] = item.limit3Lower;
-        specObject["Limit3Upper"] = item.limit3Upper;
-
-        // Bin Name and Comment
+        specObject["Params"] = item.params;
+        specObject["Value"] = item.value;
+        specObject["LowerLimit"] = item.lowerLimit; // 添加下限
+        specObject["UpperLimit"] = item.upperLimit; // 添加上限
         specObject["BinName"] = item.binName;
-        specObject["Commment"] = item.comment;
+        specObject["Comment"] = item.comment;
 
         specArray.append(specObject);
     }
@@ -568,16 +592,13 @@ void ConfigDialog::on_btnExportSpec_clicked()
 
 void ConfigDialog::on_tableSpecCellChanged(int row, int column)
 {
-    if (row < 0 || row >= specItems.size())
-    {
-        return; // 如果行号无效，直接返回
+    if (row < 0 || row >= specItems.size()) {
+        return;
     }
 
-    SpecItem& item = specItems[row]; // 获取对应的 SpecItem
+    SpecItem& item = specItems[row];
 
-    // 根据列号更新 SpecItem 的对应字段
-    switch (column)
-    {
+    switch (column) {
     case 0: // ID
         item.id = ui->tableSpec->item(row, column)->text();
         break;
@@ -587,49 +608,23 @@ void ConfigDialog::on_tableSpecCellChanged(int row, int column)
     case 2: // AliasName
         item.aliasName = ui->tableSpec->item(row, column)->text();
         break;
-    case 3: // Params1Name
-        item.params1Name = ui->tableSpec->item(row, column)->text();
+    case 3: // Params
+        item.params = ui->tableSpec->item(row, column)->text();
         break;
-    case 4: // Params1Value
-        item.params1Value = ui->tableSpec->item(row, column)->text();
+    case 4: // Value
+        item.value = ui->tableSpec->item(row, column)->text();
         break;
-    case 5: // Limit1Lower
-        item.limit1Lower = ui->tableSpec->item(row, column)->text();
+    case 5: // Lower Limit
+        item.lowerLimit = ui->tableSpec->item(row, column)->text();
         break;
-    case 6: // Limit1Upper
-        item.limit1Upper = ui->tableSpec->item(row, column)->text();
+    case 6: // Upper Limit
+        item.upperLimit = ui->tableSpec->item(row, column)->text();
         break;
-    case 7: // Params2Name
-        item.params2Name = ui->tableSpec->item(row, column)->text();
-        break;
-    case 8: // Params2Value
-        item.params2Value = ui->tableSpec->item(row, column)->text();
-        break;
-    case 9: // Limit2Lower
-        item.limit2Lower = ui->tableSpec->item(row, column)->text();
-        break;
-    case 10: // Limit2Upper
-        item.limit2Upper = ui->tableSpec->item(row, column)->text();
-        break;
-    case 11: // Params3Name
-        item.params3Name = ui->tableSpec->item(row, column)->text();
-        break;
-    case 12: // Params3Value
-        item.params3Value = ui->tableSpec->item(row, column)->text();
-        break;
-    case 13: // Limit3Lower
-        item.limit3Lower = ui->tableSpec->item(row, column)->text();
-        break;
-    case 14: // Limit3Upper
-        item.limit3Upper = ui->tableSpec->item(row, column)->text();
-        break;
-    case 15: // BinName
+    case 7: // BinName
         item.binName = ui->tableSpec->item(row, column)->text();
         break;
-    case 16: // Comment
+    case 8: // Comment
         item.comment = ui->tableSpec->item(row, column)->text();
-        break;
-    default:
         break;
     }
 }
