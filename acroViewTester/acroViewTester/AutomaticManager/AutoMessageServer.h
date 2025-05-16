@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <QObject>
 #include <QTcpServer>
@@ -27,5 +27,5 @@ private:
 private:
     std::unique_ptr<ExternalServer> m_externalServer;
     QString m_serverIP;
-    quint16 m_licPort;
+    quint16 m_licPort = 0;
 };

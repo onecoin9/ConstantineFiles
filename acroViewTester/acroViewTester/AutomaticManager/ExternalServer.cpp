@@ -81,7 +81,7 @@ void ExternalServer::handleClientData()
 
     // Read remaining data
     QByteArray messageData = socket->read(length);
-    if (messageData.size() < length) {
+    if (messageData.size() < static_cast<size_t>(length)) {
         socket->disconnectFromHost();
         m_clients.remove(socket);
         socket->deleteLater(); 
