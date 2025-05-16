@@ -48,6 +48,9 @@
     <Filter Include="AutomaticPlugin">
       <UniqueIdentifier>{5524d426-0f09-410e-bd4a-312ce5bc8673}</UniqueIdentifier>
     </Filter>
+    <Filter Include="spdLog">
+      <UniqueIdentifier>{2e7d4a6b-e2c0-4bc2-9371-212d18ca711c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="acroViewTester.qrc">
@@ -151,6 +154,12 @@
     <ClCompile Include="dumpUtil.cpp">
       <Filter>Source Files\controller</Filter>
     </ClCompile>
+    <ClCompile Include="tcphandler.cpp">
+      <Filter>handler</Filter>
+    </ClCompile>
+    <ClCompile Include="handlerController.cpp">
+      <Filter>handler</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="login.ui">
@@ -212,6 +221,60 @@
     <ClInclude Include="dumpUtil.h">
       <Filter>Header Files\controller</Filter>
     </ClInclude>
+    <ClInclude Include="handlerController.h">
+      <Filter>handler</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\async.h">
+      <Filter>spdLog</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\async_logger.h">
+      <Filter>spdLog</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\async_logger-inl.h">
+      <Filter>spdLog</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\common.h">
+      <Filter>spdLog</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\common-inl.h">
+      <Filter>spdLog</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\formatter.h">
+      <Filter>spdLog</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\fwd.h">
+      <Filter>spdLog</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\logger.h">
+      <Filter>spdLog</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\logger-inl.h">
+      <Filter>spdLog</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\mdc.h">
+      <Filter>spdLog</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\pattern_formatter.h">
+      <Filter>spdLog</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\pattern_formatter-inl.h">
+      <Filter>spdLog</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\spdlog.h">
+      <Filter>spdLog</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\spdlog-inl.h">
+      <Filter>spdLog</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\stopwatch.h">
+      <Filter>spdLog</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\tweakme.h">
+      <Filter>spdLog</Filter>
+    </ClInclude>
+    <ClInclude Include="include\spdlog\version.h">
+      <Filter>spdLog</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="buttonDelegate.h">
@@ -270,6 +333,9 @@
     </QtMoc>
     <QtMoc Include="jsonRpcClient.h">
       <Filter>Header Files\controller</Filter>
+    </QtMoc>
+    <QtMoc Include="tcphandler.h">
+      <Filter>handler</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
