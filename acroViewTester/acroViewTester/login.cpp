@@ -1,7 +1,7 @@
-﻿#include "login.h"
+#include "login.h"
 #include <QMessageBox>
 #include <QSettings>
-#pragma execution_character_set("utf-8")
+
 Login::Login(QWidget* parent)
     : QDialog(parent)
     , ui(new Ui::LoginDialog)

@@ -16,6 +16,6 @@ protected:
     void mousePressEvent(QMouseEvent* event) override;
 
 signals:
-    void menuTriggered(); // ×Ô¶¨Òå´¥·¢ĞÅºÅ
+    void menuTriggered(); // è‡ªå®šä¹‰è§¦å‘ä¿¡å·
 };
 #endif

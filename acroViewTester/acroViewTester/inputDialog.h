@@ -1,4 +1,4 @@
-﻿#ifndef INPUTDIALOG_H
+#ifndef INPUTDIALOG_H
 #define INPUTDIALOG_H
 
 #include <QDialog>
@@ -6,7 +6,6 @@
 #include <QFormLayout>
 #include <QPushButton>
 #include <QSettings>
-#pragma execution_character_set("utf-8")
 
 class InputDialog : public QDialog {
     Q_OBJECT

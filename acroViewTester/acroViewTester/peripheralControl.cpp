@@ -1,39 +1,40 @@
 #include"peripheralControl.h"
 
 PeripheralControl::PeripheralControl(QWidget* parent) : QWidget(parent) {
-    // 风扇控制
-    fanLabel = new QLabel("风扇控制", this);
+    // Fan Control
+    fanLabel = new QLabel("Fan Control", this);
     for (int i = 0; i < 5; ++i) {
         QPushButton* button = new QPushButton(QString::number(i), this);
         fanButtons.append(button);
         connect(button, &QPushButton::clicked, this, &PeripheralControl::onFanButtonClicked);
     }
 
-    // 电源控制
-    powerLabel = new QLabel("电源序号", this);
+    // Power Control
+    powerLabel = new QLabel("Power Index", this);
     powerInput = new QLineEdit(this);
-    QStringList powerButtonNames = { "开风扇", "关风扇", "写风扇", "开电源", "关电源", "写电源" };
+    QStringList powerButtonNames = { "Fan On", "Fan Off", "Write Fan", "Power On", "Power Off", "Write Power" };
     for (const QString& name : powerButtonNames) {
         QPushButton* button = new QPushButton(name, this);
         powerButtons.append(button);
         connect(button, &QPushButton::clicked, this, &PeripheralControl::onPowerButtonClicked);
     }
 
-    // 负载仪控制
+    // Load Instrument Control
     loadInstrumentComboBox = new QComboBox(this);
     loadInstrumentComboBox->addItems({ "Channel 1", "Channel 2", "Channel 3" });
-    connect(loadInstrumentComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &PeripheralControl::onLoadInstrumentChannelChanged);
+    connect(loadInstrumentComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), 
+            this, &PeripheralControl::onLoadInstrumentChannelChanged);
     loadInstrumentLabel = new QLabel("SITE 1", this);
 }
 
 void PeripheralControl::onFanButtonClicked() {
-    // 处理风扇按钮点击事件
+    // Handle fan button click event
 }
 
 void PeripheralControl::onPowerButtonClicked() {
-    // 处理电源按钮点击事件
+    // Handle power button click event
 }
 
 void PeripheralControl::onLoadInstrumentChannelChanged(int index) {
-    // 处理负载仪通道改变事件
+    // Handle load instrument channel change event
 }

@@ -20,7 +20,7 @@
 //
 //void BlockDetailDialog::updateInfo()
 //{
-//    // ¸üĞÂ»ù±¾ĞÅÏ¢±êÇ©
+//    // æ›´æ–°åŸºæœ¬ä¿¡æ¯æ ‡ç­¾
 //    ui->labelLib->setText(QString("Lib: %1").arg(m_data.libNumber));
 //    ui->labelSite->setText(QString("Site: %1").arg(m_data.siteNumber));
 //    ui->labelPass->setText(QString("Pass: %1").arg(m_data.pass));
@@ -31,9 +31,9 @@
 //}
 //void BlockDetailDialog::setupUI()
 //{
-//    setWindowTitle("BlockÏêÏ¸ĞÅÏ¢");
+//    setWindowTitle("Blockè¯¦ç»†ä¿¡æ¯");
 //
-//    // ÉèÖÃ»ù±¾ĞÅÏ¢
+//    // è®¾ç½®åŸºæœ¬ä¿¡æ¯
 //    ui->labelLib->setText(QString("Lib: %1").arg(m_data.libNumber));
 //    ui->labelSite->setText(QString("Site: %1").arg(m_data.siteNumber));
 //    ui->labelPass->setText(QString("Pass: %1").arg(m_data.pass));
@@ -44,11 +44,11 @@
 //
 //void BlockDetailDialog::setupCharts()
 //{
-//    // ´´½¨Í¼±í
+//    // åˆ›å»ºå›¾è¡¨
 //    createOSChart();
 //    createLeakageChart();
 //
-//    // Ìí¼Óµ½TabÒ³
+//    // æ·»åŠ åˆ°Tabé¡µ
 //    ui->tabWidget->addTab(m_osChartView, "OS");
 //    ui->tabWidget->addTab(m_leakageChartView, "Leakage");
 //}
@@ -58,14 +58,14 @@
 //    QChart* chart = new QChart();
 //    QLineSeries* series = new QLineSeries();
 //
-//    // Ìí¼ÓÊı¾İµã
+//    // æ·»åŠ æ•°æ®ç‚¹
 //    for (int i = 0; i < m_data.osData.size(); ++i) {
 //        series->append(i, m_data.osData[i]);
 //    }
 //
 //    chart->addSeries(series);
 //    chart->createDefaultAxes();
-//    chart->setTitle("OSÇ÷ÊÆÍ¼");
+//    chart->setTitle("OSè¶‹åŠ¿å›¾");
 //
 //    m_osChartView = new QChartView(chart);
 //    m_osChartView->setRenderHint(QPainter::Antialiasing);
@@ -76,14 +76,14 @@
 //    QChart* chart = new QChart();
 //    QLineSeries* series = new QLineSeries();
 //
-//    // Ìí¼ÓÊı¾İµã
+//    // æ·»åŠ æ•°æ®ç‚¹
 //    for (int i = 0; i < m_data.leakageData.size(); ++i) {
 //        series->append(i, m_data.leakageData[i]);
 //    }
 //
 //    chart->addSeries(series);
 //    chart->createDefaultAxes();
-//    chart->setTitle("LeakageÇ÷ÊÆÍ¼");
+//    chart->setTitle("Leakageè¶‹åŠ¿å›¾");
 //
 //    m_leakageChartView = new QChartView(chart);
 //    m_leakageChartView->setRenderHint(QPainter::Antialiasing);

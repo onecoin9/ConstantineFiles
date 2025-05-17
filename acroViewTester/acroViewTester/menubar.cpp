@@ -1,4 +1,4 @@
-﻿#include"acroViewTester.h"
+#include"acroViewTester.h"
 #include "setting.h"
 #include "userManagement.h"
 #include "login.h"
@@ -88,11 +88,16 @@ void acroViewTester::setupMenuBar()
             // TODO: 添加使用文档处理逻辑
         }
         else if (action->text() == tr("关于我们")) {
-            QMessageBox::about(this, tr("关于我们"),
-                tr("AcroViewTester\n版本：1.0.0\n版权所有 © 2024\n\n"
-                    "深圳市昂科技术有限公司\n"
-                    "地址：深圳市南山区粤海街道汉京金融中心七楼\n"
-                    "ADD:7F, Hanking Center, Yuehai Street, Nanshan District, Shenzhen, 518057, P.R.C"));
+            QMessageBox::about(this, tr("About"),
+                tr("AcroViewTester\n"
+                   "Version/版本: 1.0.0\n"
+                   "Copyright (C) 2024\n\n"
+                   "Shenzhen Aukey Technology Co., Ltd.\n"
+                   "深圳市昂科技术有限公司\n\n"
+                   "Address/地址: 7F, Hanking Center,\n"
+                   "Yuehai Street, Nanshan District,\n"
+                   "Shenzhen, 518057, P.R.C\n"
+                   "深圳市南山区粤海街道汉京金融中心七楼"));
         }
 
         });

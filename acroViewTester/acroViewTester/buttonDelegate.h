@@ -1,7 +1,7 @@
 #include <QStyledItemDelegate>
 #include <QPushButton>
 #include <QHBoxLayout>
-#pragma execution_character_set("utf-8")
+
 class ButtonDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
@@ -15,8 +15,8 @@ public:
         QHBoxLayout* layout = new QHBoxLayout(widget);
         layout->setContentsMargins(0, 0, 0, 0);
 
-        QPushButton* resetButton = new QPushButton("ÖØÖÃÃÜÂë", widget);
-        QPushButton* deleteButton = new QPushButton("É¾³ý", widget);
+        QPushButton* resetButton = new QPushButton("é‡ç½®å¯†ç ", widget);
+        QPushButton* deleteButton = new QPushButton("åˆ é™¤", widget);
 
         layout->addWidget(resetButton);
         layout->addWidget(deleteButton);

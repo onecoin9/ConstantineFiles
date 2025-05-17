@@ -1,8 +1,7 @@
-﻿#ifndef ACR0VIEWTESTER_H
+#ifndef ACR0VIEWTESTER_H
 #define ACR0VIEWTESTER_H
 
 // 1. 系统和Qt基础头文件
-#pragma execution_character_set("utf-8")
 #pragma comment(lib, "Qt5Xlsx.lib")
 #pragma comment(lib, "Qt5Xlsxd.lib")
 
@@ -14,6 +13,12 @@
 #include <QSettings>
 #include <QTimer>
 #include <QDateTime>
+#include <QAxObject>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QStandardItemModel>
+#include <QDateTime>
+#include <QDir>
 
 // 2. Qt UI相关头文件
 #include <QMessageBox>
@@ -58,6 +63,7 @@
 
 // 7. 标准库
 #include <map>
+#include <QtGui/qstandarditemmodel.h>
 
 class acroViewTester : public QMainWindow
 {
@@ -84,9 +90,6 @@ public:
         QString text;
     };
 
-    struct ViceViewControls {
-        QVector<QPair<QLabel*, QLabel*>> pathLabels;
-    };
 
 private:
     // 1. 初始化相关函数
@@ -172,109 +175,104 @@ private:
     void openConfigDialog();
 
 private slots:
-	// UI 事件处理
-	void on_pushButtonExpand_clicked();
-	void on_pushButtonSendUID_clicked();
-	void on_exportButton_clicked();
-	void onPushButtonSiteClicked(int index);
-	void onpushButtonJsonRpcResultClicked();
-	void onPushButtonStartClicked();
-	void onSettingsChanged();
-	void onGridSizeChanged(int rows, int cols, int baseRows, int baseCols);
-	void onViewActionToggled(bool checked);
-	void onProductItemSelected(const QModelIndex& current, const QModelIndex& previous);
-	void onSceneChanged(const QString& scene);
+    // UI 事件处理
+    void on_pushButtonExpand_clicked();
+    void on_pushButtonSendUID_clicked();
+    void on_exportButton_clicked();
+    void onPushButtonSiteClicked(int index);
+    void onpushButtonJsonRpcResultClicked();
+    void onPushButtonStartClicked();
+    void onSettingsChanged();
+    void onGridSizeChanged(int rows, int cols, int baseRows, int baseCols);
+    void onViewActionToggled(bool checked);
+    void onProductItemSelected(const QModelIndex& current, const QModelIndex& previous);
+    void onSceneChanged(const QString& scene);
 
-	// JSON-RPC 事件处理
-	void onJsonRpcConnected();
-	void onJsonRpcDisconnected();
-	void onJsonRpcSocketError(QAbstractSocket::SocketError error);
-	void onJsonRpcProtocolError(const QString& errorString);
-	void onJsonRpcServerCommandReceived(const QString& cmd, const QJsonObject& data);
-	void onJsonRpcResponseReceived(qint64 id, const QJsonValue& result);
+    // JSON-RPC 事件处理
+    void onJsonRpcConnected();
+    void onJsonRpcDisconnected();
+    void onJsonRpcSocketError(QAbstractSocket::SocketError error);
+    void onJsonRpcProtocolError(const QString& errorString);
+    void onJsonRpcServerCommandReceived(const QString& cmd, const QJsonObject& data);
+    void onJsonRpcResponseReceived(qint64 id, const QJsonValue& result);
 
-	// 其他事件处理
-	void updateTime();
-	void openFileApp();
-	void sendJsonRpcData();
-	void settingTrigger();
-	void handleMenuTrigger();
-	void handleAutomatic();
-	//页面处理
-	void openConfigDialog();
-	void onComboBoxDoJobJsonChanged(const QString& selectedOption);
+    // 其他事件处理
+    void settingTrigger();
+    void handleMenuTrigger();
+    void handleAutomatic();
+
+    void onComboBoxDoJobJsonChanged(const QString& selectedOption);
 private:
-	// 成员变量
-	Ui::acroViewTesterClass ui;
-	DirectTriggerMenu* directMenu;
-	settingDialog* settingDialog_ui = nullptr;
-	QSettings settings;
-	QMenu* viewMenu;
-	QStatusBar* statusBar;
-	QLabel* ipLabel;
-	QLabel* versionLabel;
-	QLabel* timeLabel;
-	QLabel* userLabel;
-	QLabel* m_statusDot;
-	QLabel* m_arrowIcon;
-	QLabel* jsonRpcResultLabel;
-	QTimer* timer;
-	QScrollArea* m_scrollArea;
-	QWidget* m_contentWidget;
-	QWidget* m_widgetA;
-	QWidget* m_scrollContent;
-	QTableView* tableViewAlarmData;
-	ProductInfoModel* productModel;
-	QStandardItemModel* dataModel;
-	QStandardItemModel* jsonRpcResultModel;
-	QStandardItemModel* jsonRpcResultModel1;
-	QList<QStandardItemModel*> jsonModels;
-	QList<QStandardItemModel*> jsonModels1;
-	QMap<QString, QAction*> viewActions;
-	QMap<QString, QWidget*> viewWidgets;
-	QVector<TestSite*> m_testSites;
-	TcpIpModule tcpModule;
-	JsonRpcClient jsonRpcClient;
-	std::map<QString, std::function<void()>> handlers;
-	ProductTestInfo testInfo;
-	int currentModelIndex;
-	int currentModelIndex1;
-	TcpHandler tcphanlder;
-	HandlerController handlercontroller;
-	bool m_isExpanded;
-	struct ViceViewControls {
-		QVector<QPair<QLabel*, QLabel*>> pathLabels;
-	};
-	ViceViewControls m_viceViewControls;
-	ConfigDialog* m_configDialog = nullptr;
-	IAutomatic* mAutomatic;
-	DeviceInfo deviceInfo;
-	JobResult jobResult;
-	ProjectInfo projectInfo;
+    // 成员变量
+    Ui::acroViewTesterClass ui;
+    DirectTriggerMenu* directMenu;
+    settingDialog* settingDialog_ui = nullptr;
+    QSettings settings;
+    QMenu* viewMenu;
+    QStatusBar* statusBar;
+    QLabel* ipLabel;
+    QLabel* versionLabel;
+    QLabel* timeLabel;
+    QLabel* userLabel;
+    QLabel* m_statusDot;
+    QLabel* m_arrowIcon;
+    QLabel* jsonRpcResultLabel;
+    QTimer* timer;
+    QScrollArea* m_scrollArea;
+    QWidget* m_contentWidget;
+    QWidget* m_widgetA;
+    QWidget* m_scrollContent;
+    QTableView* tableViewAlarmData;
+    ProductInfoModel* productModel;
+    QStandardItemModel* dataModel;
+    QStandardItemModel* jsonRpcResultModel;
+    QStandardItemModel* jsonRpcResultModel1;
+    QList<QStandardItemModel*> jsonModels;
+    QList<QStandardItemModel*> jsonModels1;
+    QMap<QString, QAction*> viewActions;
+    QMap<QString, QWidget*> viewWidgets;
+    QVector<TestSite*> m_testSites;
+    TcpIpModule tcpModule;
+    JsonRpcClient jsonRpcClient;
+    std::map<QString, std::function<void()>> handlers;
+    ProductTestInfo testInfo;
+    int currentModelIndex;
+    int currentModelIndex1;
+    TcpHandler tcphanlder;
+    HandlerController handlercontroller;
+    bool m_isExpanded;
+    struct ViceViewControls {
+        QVector<QPair<QLabel*, QLabel*>> pathLabels;
+    };
+    ViceViewControls m_viceViewControls;
+    ConfigDialog* m_configDialog = nullptr;
+    IAutomatic* mAutomatic;
+    DeviceInfo deviceInfo;
+    JobResult jobResult;
+    ProjectInfo projectInfo;
+    QVector<bool> m_tabsInitialized;  // 添加这行声明
 private slots:
-	void onbtnQuerySiteMappingClicked();
-	void onSetTaskClicked();
-	void onTellDevReadyClicked();
-	void onSetDoneSiteClicked();
+    void onbtnQuerySiteMappingClicked();
+    void onSetTaskClicked();
+    void onTellDevReadyClicked();
+    void onSetDoneSiteClicked();
 
 private:
 
-	// 控件声明
-	QTableWidget* tableWidgetSiteMapping;
-	QLineEdit* lineEditTaskInfo;
-	QTextEdit* textEditDevReadyInfo;
-	QLineEdit* lineEditSiteIndex;
-	QLineEdit* lineEditBurnResult;
+    // 控件声明
+    QTableWidget* tableWidgetSiteMapping;
+    QLineEdit* lineEditTaskInfo;
+    QTextEdit* textEditDevReadyInfo;
+    QLineEdit* lineEditSiteIndex;
+    QLineEdit* lineEditBurnResult;
 
-	//测试dump
+    //测试dump
 private slots:
-	void onTestNullPointer();
-	void onTestArrayOverflow();
-	void onTestDivideByZero();
-	void onTestStackOverflow();
+    void onTestNullPointer();
+    void onTestArrayOverflow();
+    void onTestDivideByZero();
+    void onTestStackOverflow();
 
-private:
-	void setupTestButtons();
 
 };
 

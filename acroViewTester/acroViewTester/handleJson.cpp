@@ -17,7 +17,7 @@ void acroViewTester::updateGlobalCmd(const QString& selectedOption) {
     } else if (selectedOption == "Secure") {
         globalCmdID = 0x1804;
         globalCmdRun = "Secure";
-    } else if (selectedOption == "Read" || selectedOption.isEmpty()) { // Ä¬ÈÏÖµÎª Read
+    } else if (selectedOption == "Read" || selectedOption.isEmpty()) { // é»˜è®¤å€¼ä¸º Read
         globalCmdID = 0x1806;
         globalCmdRun = "Read";
     } else {
@@ -155,18 +155,18 @@ void acroViewTester::sendLoadProject()
     QSettings settings("AcroView", "acroViewTester");
     QString path = settings.value("Paths/ProjectPath").toString();
     if (path.isEmpty()) {
-        QMessageBox::warning(this, "¾¯¸æ", "ÇëÊäÈëÂ·¾¶");
+        QMessageBox::warning(this, "è­¦å‘Š", "è¯·è¾“å…¥è·¯å¾„");
         return;
     }
     QString fileName = settings.value("Paths/AutoPath").toString();
     if (fileName.isEmpty()) {
-        QMessageBox::warning(this, "¾¯¸æ", "ÇëÑ¡ÔñÏîÄ¿ÎÄ¼ş");
+        QMessageBox::warning(this, "è­¦å‘Š", "è¯·é€‰æ‹©é¡¹ç›®æ–‡ä»¶");
         return;
     }
     QFileInfo fileInfo(fileName);
     QString baseFileName = fileInfo.fileName();
 
-    // ½« baseFileName ÓÃÓÚ JSON ²ÎÊı
+    // å°† baseFileName ç”¨äº JSON å‚æ•°
     params["taskFileName"] = baseFileName;
     params["path"] = path;
 
@@ -178,7 +178,7 @@ void acroViewTester::sendGetAdapterEn()
 {
     qDebug() << "Sending GetAdapterEn...";
     QJsonObject params;
-    // Ìí¼Ó¾ßÌå²ÎÊı
+    // æ·»åŠ å…·ä½“å‚æ•°
     jsonRpcClient.sendRequest("GetAdapterEn", params);
 }
 
@@ -214,12 +214,12 @@ void acroViewTester::sendDoCustom()
     qDebug() << "Sending DoCustom...";
     QString testStep;
     QJsonObject commands;
-    // ¹¹Ôìparams¶ÔÏó
+    // æ„é€ paramså¯¹è±¡
     QJsonObject params;
     params.insert("testStep", testStep);
     params.insert("commands", commands);
 
-    // ·¢ËÍÇëÇó
+    // å‘é€è¯·æ±‚
     jsonRpcClient.sendRequest("DoCustom", params);
 }
 
@@ -227,7 +227,7 @@ void acroViewTester::sendGetProjectInfo()
 {
     qDebug() << "Sending GetProjectInfo...";
     QJsonObject params;
-    // Ìí¼Ó¾ßÌå²ÎÊı
+    // æ·»åŠ å…·ä½“å‚æ•°
     jsonRpcClient.sendRequest("GetProjectInfo", params);
 }
 
@@ -235,7 +235,7 @@ void acroViewTester::sendLogInterface()
 {
     qDebug() << "Sending LogInterface...";
     QJsonObject params;
-    // Ìí¼Ó¾ßÌå²ÎÊı
+    // æ·»åŠ å…·ä½“å‚æ•°
     jsonRpcClient.sendRequest("LogInterface", params);
 }
 
@@ -243,7 +243,7 @@ void acroViewTester::sendEventInterface()
 {
     qDebug() << "Sending EventInterface...";
     QJsonObject params;
-    // Ìí¼Ó¾ßÌå²ÎÊı
+    // æ·»åŠ å…·ä½“å‚æ•°
     jsonRpcClient.sendRequest("EventInterface", params);
 }
 
@@ -251,7 +251,7 @@ void acroViewTester::sendGetProgrammerInfo()
 {
     qDebug() << "Sending GetProgrammerInfo...";
     QJsonObject params;
-    // Ìí¼Ó¾ßÌå²ÎÊı
+    // æ·»åŠ å…·ä½“å‚æ•°
     jsonRpcClient.sendRequest("GetProgrammerInfo", params);
 }
 
@@ -259,7 +259,7 @@ void acroViewTester::sendGetJobResult()
 {
     qDebug() << "Sending GetJobResult...";
     QJsonObject params;
-    // Ìí¼Ó¾ßÌå²ÎÊı
+    // æ·»åŠ å…·ä½“å‚æ•°
     jsonRpcClient.sendRequest("GetJobResult", params);
 }
 
@@ -477,13 +477,13 @@ void acroViewTester::onJsonRpcResponseReceived(qint64 id, const QJsonValue& resu
     {
         QJsonObject data = params.value("data").toObject();
         //addRow("Site", QString::number(data.value("sockets").toInt()));
-        //´Ë´¦»¹ĞèÒªÏêÏ¸Éè¼Æ
+        //æ­¤å¤„è¿˜éœ€è¦è¯¦ç»†è®¾è®¡
     }
     else if (method == "DoCustom")
     {
         QJsonObject data = params.value("data").toObject();
         //addRow("Site", QString::number(data.value("sockets").toInt()));
-        //´Ë´¦»¹ĞèÒªÏêÏ¸Éè¼Æ
+        //æ­¤å¤„è¿˜éœ€è¦è¯¦ç»†è®¾è®¡
     }
     else
     {
@@ -606,6 +606,6 @@ void acroViewTester::on_pushButtonSendUID_clicked()
 
     QString uidHex = QString("0x%1").arg(uid, 8, 16, QChar('0')).toUpper();
 
-    QMessageBox::information(this, "Éú³ÉµÄ UID", QString("Éú³ÉµÄ UID Îª: %1").arg(uidHex));
+    QMessageBox::information(this, "ç”Ÿæˆçš„ UID", QString("ç”Ÿæˆçš„ UID ä¸º: %1").arg(uidHex));
 
 }

@@ -1,9 +1,9 @@
-﻿#include "setting.h"
+#include "setting.h"
 #include "ui_setting.h"
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QDebug>
-#pragma execution_character_set("utf-8")
+
 settingDialog::settingDialog(QWidget* parent)
     : QDialog(parent)
     , ui(new Ui::settingDialog)

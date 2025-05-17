@@ -1,6 +1,6 @@
-﻿#ifndef PRODUCTINFOMODEL_H
+#ifndef PRODUCTINFOMODEL_H
 #define PRODUCTINFOMODEL_H
-#pragma execution_character_set("utf-8")
+
 #include <QAbstractListModel>
 #include <QStringList>
 #include <QPair>

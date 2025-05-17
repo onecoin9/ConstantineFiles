@@ -37,16 +37,16 @@ QString acroViewTester::getCurrentVersion()
 		.arg(major)
 		.arg(minor)
 		.arg(patch);
-	qDebug() << "µ±Ç°°æ±¾£º" << versionInfo;
+	 qDebug().noquote() << QStringLiteral("å½“å‰ç‰ˆæœ¬: ") + versionInfo;
 
-	//ÌáÊ¾¸üĞÂ²¿·Ö
+	//æç¤ºæ›´æ–°éƒ¨åˆ†
 	//bool isVersionNewer(int major, int minor, int patch) {
 	//    return (major > APP_VERSION_MAJOR) ||
 	//        (major == APP_VERSION_MAJOR && minor > APP_VERSION_MINOR) ||
 	//        (major == APP_VERSION_MAJOR && minor == APP_VERSION_MINOR && patch >= APP_VERSION_PATCH);
 	//}
 	//if (isVersionNewer(1, 0, 2)) {
-	//    // ÌáÊ¾¸üĞÂ
+	//    // æç¤ºæ›´æ–°
 	//}
 	return versionInfo;
 
@@ -54,23 +54,23 @@ QString acroViewTester::getCurrentVersion()
 
 void TestNullPointer() {
 	int* p = nullptr;
-	*p = 100;  // ÕâÀï»á±ÀÀ£²¢Éú³Édump
+	*p = 100;  // è¿™é‡Œä¼šå´©æºƒå¹¶ç”Ÿæˆdump
 }
 
 void TestArrayOverflow() {
 	int arr[5] = { 1, 2, 3, 4, 5 };
 	for (int i = 0; i <= 5; i++) {
-		arr[i] = 0;  // µ±i=5Ê±Ô½½ç·ÃÎÊ
+		arr[i] = 0;  // å½“i=5æ—¶è¶Šç•Œè®¿é—®
 	}
 }
 void TestDivideByZero() {
 	int a = 100;
 	int b = 0;
-	int c = a / b;  // ³ıÁã´íÎó
+	int c = a / b;  // é™¤é›¶é”™è¯¯
 }
 
 void TestStackOverflow() {
-	TestStackOverflow();  // ÎŞÏŞµİ¹éµ¼ÖÂÕ»Òç³ö
+	TestStackOverflow();  // æ— é™é€’å½’å¯¼è‡´æ ˆæº¢å‡º
 }
 
 void acroViewTester::setupTestButtons()

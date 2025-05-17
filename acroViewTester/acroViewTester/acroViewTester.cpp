@@ -1,4 +1,4 @@
-﻿#include "acroViewTester.h"
+#include "acroViewTester.h"
 #include <iostream>
 using namespace std;
 #include "windows.h"
@@ -7,6 +7,9 @@ acroViewTester::acroViewTester(QWidget* parent)
     : QMainWindow(parent)
     , settings("AcroView", "AcroViewTester")
 {
+    // 初始化标签页状态数组（假设有6个标签页）
+    m_tabsInitialized = QVector<bool>(6, false);
+
     // 基础UI初始化
     initEssentials();
 
@@ -83,13 +86,13 @@ void acroViewTester::initTabContent(int index)
         setupTestSites();
         initProductModel();
         m_tabsInitialized[0] = true;
-
+        setupViceView();
         break;
 
     case 1:  
 
         setupTableView();
-        setupViceView();
+
         setupDataUI();
         setupExpandButton();
         addLegendToGroupBox();

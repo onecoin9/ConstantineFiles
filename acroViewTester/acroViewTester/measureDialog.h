@@ -34,7 +34,7 @@ public:
     explicit MeasurementDialog(QWidget* parent = nullptr);
     ~MeasurementDialog();
     void initCheckbox();
-    // 处理函数接口
+    // 澶勭悊鍑芥暟鎺ュ彛
     void handlePinContinuityTest();
     void handlePowerOnCurrentTest();
     void handleFrequencyScreening();

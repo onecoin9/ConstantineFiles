@@ -1,4 +1,4 @@
-﻿#ifndef USERMANAGEMENT_H
+#ifndef USERMANAGEMENT_H
 #define USERMANAGEMENT_H
 #include "ui_userManagement.h"
 #include "roleAddDialog.h"
@@ -7,7 +7,7 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <QStandardItem>
-#pragma execution_character_set("utf-8")
+
 namespace Ui {
     class UserManagementDialog;
 }

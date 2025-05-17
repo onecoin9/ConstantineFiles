@@ -14,11 +14,11 @@
 #include <QJsonParseError>
 #include <QJsonArray> // Include if params can be arrays
 #include <QDebug>     // For logging/debugging
-// Óë·şÎñÆ÷Æ¥ÅäµÄ³£Á¿
+// ä¸æœåŠ¡å™¨åŒ¹é…çš„å¸¸é‡
 static const quint32 CLIENT_MAGIC_NUMBER = 0x4150524F;//MagicNumber ("APRO")
-static const quint16 CLIENT_HEADER_VERSION = 1;//Ğ­Òé°æ±¾ºÅ£¬2×Ö½Ú
-static const int CLIENT_HEADER_LENGTH = 32;//MagicNumber£¨4×Ö½Ú£©+Ğ­Òé°æ±¾ºÅ£¨2×Ö½Ú£©+ÇëÇóID£¨8×Ö½Ú£©+Êı¾İ³¤¶È£¨4×Ö½Ú£©= 32×Ö½Ú
-static const QString CLIENT_JSONRPC_VERSION = "2.0";//jsonrpc°æ±¾ºÅ
+static const quint16 CLIENT_HEADER_VERSION = 1;//åè®®ç‰ˆæœ¬å·ï¼Œ2å­—èŠ‚
+static const int CLIENT_HEADER_LENGTH = 32;//MagicNumberï¼ˆ4å­—èŠ‚ï¼‰+åè®®ç‰ˆæœ¬å·ï¼ˆ2å­—èŠ‚ï¼‰+è¯·æ±‚IDï¼ˆ8å­—èŠ‚ï¼‰+æ•°æ®é•¿åº¦ï¼ˆ4å­—èŠ‚ï¼‰= 32å­—èŠ‚
+static const QString CLIENT_JSONRPC_VERSION = "2.0";//jsonrpcç‰ˆæœ¬å·
 
 class JsonRpcClient : public QObject
 {
@@ -28,35 +28,35 @@ public:
     explicit JsonRpcClient(QObject* parent = nullptr);
     virtual ~JsonRpcClient();
 
-    // Á¬½Óµ½·şÎñÆ÷
+    // è¿æ¥åˆ°æœåŠ¡å™¨
     void connectToServer(const QString& host, quint16 port);
-    // ¶Ï¿ªÁ¬½Ó
+    // æ–­å¼€è¿æ¥
     void disconnectFromServer();
-    // ¼ì²éÊÇ·ñÁ¬½Ó
+    // æ£€æŸ¥æ˜¯å¦è¿æ¥
     bool isConnected() const;
 
-    // ·¢ËÍ JSON-RPC ÇëÇó (Ê¹ÓÃ»Øµ÷´¦ÀíÏìÓ¦)
-    // ·µ»ØÇëÇó ID£¬Èç¹û·¢ËÍÊ§°ÜÔò·µ»Ø -1
+    // å‘é€ JSON-RPC è¯·æ±‚ (ä½¿ç”¨å›è°ƒå¤„ç†å“åº”)
+    // è¿”å›è¯·æ±‚ IDï¼Œå¦‚æœå‘é€å¤±è´¥åˆ™è¿”å› -1
     qint64 sendRequest(const QString& method, const QJsonValue params = QJsonValue(),
         std::function<void(const QJsonValue& result)> successCallback = nullptr,
         std::function<void(int code, const QString& message, const QJsonValue& data)> errorCallback = nullptr,
-        int timeoutMsecs = 5000); // ³¬Ê±Ê±¼ä£¬Ä¬ÈÏ5Ãë
+        int timeoutMsecs = 5000); // è¶…æ—¶æ—¶é—´ï¼Œé»˜è®¤5ç§’
 
-// ·¢ËÍ JSON-RPC Í¨Öª (²»ĞèÒªÏìÓ¦)
+// å‘é€ JSON-RPC é€šçŸ¥ (ä¸éœ€è¦å“åº”)
     bool sendNotification(const QString& method, const QJsonValue params = QJsonValue());
 
 
 signals:
-    // Á¬½Ó/¶Ï¿ªĞÅºÅ
+    // è¿æ¥/æ–­å¼€ä¿¡å·
     void connected();
     void disconnected();
-    // Socket ´íÎóĞÅºÅ
+    // Socket é”™è¯¯ä¿¡å·
     void socketError(QAbstractSocket::SocketError socketErrortemp);
-    // Ğ­Òé´íÎóĞÅºÅ£¨ÀıÈç£¬ÊÕµ½ÎŞĞ§Ö¡£©
+    // åè®®é”™è¯¯ä¿¡å·ï¼ˆä¾‹å¦‚ï¼Œæ”¶åˆ°æ— æ•ˆå¸§ï¼‰
     void protocolError(const QString& errorString);
-    // ÊÕµ½·şÎñÆ÷Ö÷¶¯·¢ËÍµÄÃüÁî (¶ÔÓ¦·şÎñÆ÷µÄ SendClientDoCmd)
+    // æ”¶åˆ°æœåŠ¡å™¨ä¸»åŠ¨å‘é€çš„å‘½ä»¤ (å¯¹åº”æœåŠ¡å™¨çš„ SendClientDoCmd)
     void serverCommandReceived(const QString& cmd, const QJsonObject& data);
-    // Í¨ÓÃµÄÏìÓ¦/´íÎóĞÅºÅ (Èç¹û²»ÏëÓÃ»Øµ÷)
+    // é€šç”¨çš„å“åº”/é”™è¯¯ä¿¡å· (å¦‚æœä¸æƒ³ç”¨å›è°ƒ)
     void responseReceived(qint64 id, const QJsonValue& result);
     void errorReceived(qint64 id, int code, const QString& message, const QJsonValue& data);
 
@@ -69,26 +69,26 @@ private slots:
     // void onRequestTimeout();
 
 private:
-    // ´¦Àí´Ó»º³åÇø½âÎö³öµÄÍêÕû JSON Payload
+    // å¤„ç†ä»ç¼“å†²åŒºè§£æå‡ºçš„å®Œæ•´ JSON Payload
     void processPayload(const QByteArray& payload);
-    // ·¢ËÍÔ­Ê¼Êı¾İ°ü
+    // å‘é€åŸå§‹æ•°æ®åŒ…
     bool sendPacket(const QByteArray& jsonData);
-    // Éú³ÉÎ¨Ò»µÄÇëÇó ID
+    // ç”Ÿæˆå”¯ä¸€çš„è¯·æ±‚ ID
     qint64 generateRequestId();
 
-    // ÄÚ²¿½á¹¹Ìå£¬ÓÃÓÚ¸ú×Ù´ı´¦ÀíµÄÇëÇó¼°Æä»Øµ÷ºÍ¶¨Ê±Æ÷
+    // å†…éƒ¨ç»“æ„ä½“ï¼Œç”¨äºè·Ÿè¸ªå¾…å¤„ç†çš„è¯·æ±‚åŠå…¶å›è°ƒå’Œå®šæ—¶å™¨
     struct PendingRequest {
         qint64 id;
         QString method;
         std::function<void(const QJsonValue& result)> successCb;
         std::function<void(int code, const QString& message, const QJsonValue& data)> errorCb;
-        QTimer* timer; // ÓÃÓÚ´¦Àí³¬Ê±µÄ¶¨Ê±Æ÷
+        QTimer* timer; // ç”¨äºå¤„ç†è¶…æ—¶çš„å®šæ—¶å™¨
     };
 
     QTcpSocket* m_socket;
-    QByteArray m_buffer; // ½ÓÊÕ»º³åÇø
-    qint64 m_nextRequestId; // ÓÃÓÚÉú³ÉÇëÇó ID
-    QHash<qint64, PendingRequest> m_pendingRequests; // ´æ´¢´ı´¦ÀíµÄÇëÇó
+    QByteArray m_buffer; // æ¥æ”¶ç¼“å†²åŒº
+    qint64 m_nextRequestId; // ç”¨äºç”Ÿæˆè¯·æ±‚ ID
+    QHash<qint64, PendingRequest> m_pendingRequests; // å­˜å‚¨å¾…å¤„ç†çš„è¯·æ±‚
 };
 
 #endif // JSONRPCCLIENT_H

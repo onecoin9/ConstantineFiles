@@ -23,22 +23,22 @@ void acroViewTester::onSetTaskClicked()
 {
     QString rdyInfo = ui.lineEditTaskFilePath->text();
     if (rdyInfo.isEmpty()) {
-        QMessageBox::warning(this, "¾¯¸æ", "ÈÎÎñĞÅÏ¢²»ÄÜÎª¿Õ£¡");
+        QMessageBox::warning(this, "è­¦å‘Š", "ä»»åŠ¡ä¿¡æ¯ä¸èƒ½ä¸ºç©º!");
         return;
     }
-    // Ê¾ÀıÂß¼­
-    qDebug() << "ÉèÖÃÈÎÎñ:" << rdyInfo;
+    // ç¤ºä¾‹é€»è¾‘
+    qDebug() << "è®¾ç½®ä»»åŠ¡:" << rdyInfo;
 }
 
 void acroViewTester::onTellDevReadyClicked()
 {
     QString devReadyInfo = textEditDevReadyInfo->toPlainText();
     if (devReadyInfo.isEmpty()) {
-        QMessageBox::warning(this, "¾¯¸æ", "Õ¾µãÊ¹ÄÜĞÅÏ¢²»ÄÜÎª¿Õ£¡");
+        QMessageBox::warning(this, "è­¦å‘Š", "ç«™ç‚¹ä½¿èƒ½ä¿¡æ¯ä¸èƒ½ä¸ºç©ºï¼");
         return;
     }
-    // Ê¾ÀıÂß¼­
-    qDebug() << "Õ¾µãÊ¹ÄÜĞÅÏ¢:" << devReadyInfo;
+    // ç¤ºä¾‹é€»è¾‘
+    qDebug() << "ç«™ç‚¹ä½¿èƒ½ä¿¡æ¯:" << devReadyInfo;
 }
 
 void acroViewTester::onSetDoneSiteClicked()
@@ -46,29 +46,29 @@ void acroViewTester::onSetDoneSiteClicked()
     QString siteIndex = lineEditSiteIndex->text();
     QString burnResult = lineEditBurnResult->text();
     if (siteIndex.isEmpty() || burnResult.isEmpty()) {
-        QMessageBox::warning(this, "¾¯¸æ", "Õ¾µã±àºÅ»òÉÕÂ¼½á¹û²»ÄÜÎª¿Õ£¡");
+        QMessageBox::warning(this, "è­¦å‘Š", "ç«™ç‚¹ç¼–å·æˆ–çƒ§å½•ç»“æœä¸èƒ½ä¸ºç©ºï¼");
         return;
     }
-    // Ê¾ÀıÂß¼­
-    qDebug() << "Õ¾µã±àºÅ:" << siteIndex << "ÉÕÂ¼½á¹û:" << burnResult;
+    // ç¤ºä¾‹é€»è¾‘
+    qDebug() << "ç«™ç‚¹ç¼–å·:" << siteIndex << "çƒ§å½•ç»“æœ:" << burnResult;
 }
 
 void acroViewTester::onbtnQuerySiteMappingClicked()
 {
-    // »ñÈ¡µ±Ç°Ä¿Â¼ÏÂµÄ config.ini ÎÄ¼şÂ·¾¶
+    // è·å–å½“å‰ç›®å½•ä¸‹çš„ config.ini æ–‡ä»¶è·¯å¾„
     QString configFilePath = QCoreApplication::applicationDirPath() + QDir::separator() + "Config.ini";
 
-    // ¼ì²éÎÄ¼şÊÇ·ñ´æÔÚ
+    // æ£€æŸ¥æ–‡ä»¶æ˜¯å¦å­˜åœ¨
     if (!QFile::exists(configFilePath)) {
-        QMessageBox::warning(this, "´íÎó", "ÅäÖÃÎÄ¼ş Config.ini ²»´æÔÚ£¡");
+        QMessageBox::warning(this, "é”™è¯¯", "é…ç½®æ–‡ä»¶ Config.ini ä¸å­˜åœ¨ï¼");
         return;
     }
 
-    // Ê¹ÓÃ QSettings ¶ÁÈ¡ ini ÎÄ¼ş
+    // ä½¿ç”¨ QSettings è¯»å– ini æ–‡ä»¶
     QSettings settings(configFilePath, QSettings::IniFormat);
 
-    // ´òÓ¡ËùÓĞÄÚÈİ
-    qDebug() << "ÅäÖÃÎÄ¼şÄÚÈİ:";
+    // æ‰“å°æ‰€æœ‰å†…å®¹
+    qDebug() << "é…ç½®æ–‡ä»¶å†…å®¹:";
     foreach (const QString &group, settings.childGroups()) {
         settings.beginGroup(group);
         foreach (const QString &key, settings.childKeys()) {
@@ -79,47 +79,47 @@ void acroViewTester::onbtnQuerySiteMappingClicked()
 
     QString sitesAutoMap = settings.value("SitesAutoMap", "<Site01,1><Site02,2><Site03,3><Site04,4>").toString();
 
-    qDebug() << "SitesAutoMap ×Ö¶ÎÄÚÈİ:" << sitesAutoMap;
+    qDebug() << "SitesAutoMap å­—æ®µå†…å®¹:" << sitesAutoMap;
 
     if (sitesAutoMap.isEmpty()) {
-        QMessageBox::warning(this, "´íÎó", "ÅäÖÃÎÄ¼şÖĞÎ´ÕÒµ½ SitesAutoMap ×Ö¶Î»ò×Ö¶ÎÎª¿Õ£¡");
+        QMessageBox::warning(this, "é”™è¯¯", "é…ç½®æ–‡ä»¶ä¸­æœªæ‰¾åˆ° SitesAutoMap å­—æ®µæˆ–å­—æ®µä¸ºç©ºï¼");
         return;
     }
 
-    // ½âÎö SitesAutoMap ×Ö¶Î
+    // è§£æ SitesAutoMap å­—æ®µ
     QMap<QString, QString> siteMapping;
-    QRegularExpression regex("<(\\w+),(\\d+)>"); // Æ¥Åä <Site01,1> ¸ñÊ½
+    QRegularExpression regex("<(\\w+),(\\d+)>"); // åŒ¹é… <Site01,1> æ ¼å¼
     QRegularExpressionMatchIterator it = regex.globalMatch(sitesAutoMap);
     while (it.hasNext()) {
         QRegularExpressionMatch match = it.next();
         if (match.hasMatch()) {
-            QString siteAlias = match.captured(1); // Õ¾µã±ğÃû
-            QString siteNumber = match.captured(2); // Õ¾µã±àºÅ
+            QString siteAlias = match.captured(1); // ç«™ç‚¹åˆ«å
+            QString siteNumber = match.captured(2); // ç«™ç‚¹ç¼–å·
             siteMapping[siteAlias] = siteNumber;
-            qDebug() << "½âÎöµ½Õ¾µã:" << siteAlias << "±àºÅ:" << siteNumber;
+            qDebug() << "è§£æåˆ°ç«™ç‚¹:" << siteAlias << "ç¼–å·:" << siteNumber;
         }
     }
 
     if (siteMapping.isEmpty()) {
-        QMessageBox::warning(this, "´íÎó", "Î´½âÎöµ½ÈÎºÎÕ¾µãÓ³Éä£¡");
+        QMessageBox::warning(this, "é”™è¯¯", "æœªè§£æåˆ°ä»»ä½•ç«™ç‚¹æ˜ å°„ï¼");
         return;
     }
 
-    // ¼ì²éÊÇ·ñ°üº¬ Site01
+    // æ£€æŸ¥æ˜¯å¦åŒ…å« Site01
     if (!siteMapping.contains("Site01")) {
-        QMessageBox::warning(this, "´íÎó", "Î´ÕÒµ½ Site01 µÄÓ³Éä£¡");
+        QMessageBox::warning(this, "é”™è¯¯", "æœªæ‰¾åˆ° Site01 çš„æ˜ å°„ï¼");
         return;
     }
 
-    // ¸üĞÂ±í¸ñÏÔÊ¾
+    // æ›´æ–°è¡¨æ ¼æ˜¾ç¤º
     ui.tableWidgetSiteMapping->setRowCount(siteMapping.size());
     int row = 0;
     for (auto it = siteMapping.begin(); it != siteMapping.end(); ++it) {
-        ui.tableWidgetSiteMapping->setItem(row, 0, new QTableWidgetItem(it.key()));   // ±ğÃû
-        ui.tableWidgetSiteMapping->setItem(row, 1, new QTableWidgetItem(it.value())); // ±àºÅ
+        ui.tableWidgetSiteMapping->setItem(row, 0, new QTableWidgetItem(it.key()));   // åˆ«å
+        ui.tableWidgetSiteMapping->setItem(row, 1, new QTableWidgetItem(it.value())); // ç¼–å·
         row++;
     }
 
-    // ´òÓ¡ Site01 µÄ±àºÅ
-    qDebug() << "Site01 µÄ±àºÅÎª:" << siteMapping["Site01"];
+    // æ‰“å° Site01 çš„ç¼–å·
+    qDebug() << "Site01 çš„ç¼–å·ä¸º:" << siteMapping["Site01"];
 }

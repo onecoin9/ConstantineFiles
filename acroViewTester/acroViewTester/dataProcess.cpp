@@ -1,111 +1,157 @@
 #include"acroViewTester.h"
 void acroViewTester::setupDataUI()
 {
-	ui.tableMain->setAlternatingRowColors(true);
-	ui.tableMain->setSelectionBehavior(QAbstractItemView::SelectRows);
-	ui.tableMain->setSelectionMode(QAbstractItemView::SingleSelection);
-	ui.tableMain->horizontalHeader()->setStretchLastSection(true);
-	ui.tableMain->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    ui.tableMain->setAlternatingRowColors(true);
+    ui.tableMain->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui.tableMain->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui.tableMain->horizontalHeader()->setStretchLastSection(true);
+    ui.tableMain->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 
-	dataModel = new QStandardItemModel(this);
-	dataModel->setColumnCount(7);
-	dataModel->setHeaderData(0, Qt::Horizontal, tr("ÈÕÖ¾ĞòºÅ"));
-	dataModel->setHeaderData(1, Qt::Horizontal, tr("ÈÕÖ¾Ãû³Æ"));
-	dataModel->setHeaderData(2, Qt::Horizontal, tr("ÈÕÖ¾·¢ÉúÊ±¼ä"));
-	dataModel->setHeaderData(3, Qt::Horizontal, tr("ÈÕÖ¾ÀàĞÍ"));
-	dataModel->setHeaderData(4, Qt::Horizontal, tr("ÈÕÖ¾ÄÚÈİ"));
-	dataModel->setHeaderData(5, Qt::Horizontal, tr("¸æ¾¯ÏêÇé"));
-	dataModel->setHeaderData(6, Qt::Horizontal, tr("¸æ¾¯Êı¾İ"));
-	ui.tableMain->setModel(dataModel);
+    dataModel = new QStandardItemModel(this);
+    dataModel->setColumnCount(7);
+    dataModel->setHeaderData(0, Qt::Horizontal, tr("æ—¥å¿—åºå·"));
+    dataModel->setHeaderData(1, Qt::Horizontal, tr("æ—¥å¿—åç§°"));
+    dataModel->setHeaderData(2, Qt::Horizontal, tr("æ—¥å¿—å‘ç”Ÿæ—¶é—´"));
+    dataModel->setHeaderData(3, Qt::Horizontal, tr("æ—¥å¿—ç±»å‹"));
+    dataModel->setHeaderData(4, Qt::Horizontal, tr("æ—¥å¿—å†…å®¹"));
+    dataModel->setHeaderData(5, Qt::Horizontal, tr("å‘Šè­¦è¯¦æƒ…"));
+    dataModel->setHeaderData(6, Qt::Horizontal, tr("å‘Šè­¦æ•°æ®"));
+    ui.tableMain->setModel(dataModel);
 
-	connect(ui.exportDataButton, &QPushButton::clicked, this, &acroViewTester::on_exportButton_clicked);
+    connect(ui.exportDataButton, &QPushButton::clicked, this, &acroViewTester::on_exportButton_clicked);
 
 }
 
 void acroViewTester::addSampleData()
 {
-	dataModel->insertRow(0);
-	for (int col = 0; col < 7; ++col) {
-		QStandardItem* headerItem = new QStandardItem(dataModel->headerData(col, Qt::Horizontal).toString());
-		headerItem->setTextAlignment(Qt::AlignCenter);
-		dataModel->setItem(0, col, headerItem);
-	}
-	dataModel->removeRows(0, 1);
-	QList<QStringList> logData = {
-		{"1", "ÏµÍ³Æô¶¯", QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"),
-		 "Info", "ÏµÍ³Õı³£Æô¶¯", "ÎŞ", "[]"},
-		{"2", "ÎÂ¶È¸æ¾¯", QDateTime::currentDateTime().addSecs(-3600).toString(),
-		 "Warning", "CPUÎÂ¶È³¬¹ıãĞÖµ", "ÎÂ¶È£º85¡æ", "{\"sensor\":\"CPU01\"}"}
-	};
+    // é¢„å®šä¹‰æ—¥å¿—æ•°æ®ç»“æ„
+    struct LogEntry {
+        QString id;
+        QString event;
+        QString time;
+        QString level;
+        QString message;
+        QString detail;
+        QString data;
+    };
 
-	for (const auto& data : logData) {
-		int row = dataModel->rowCount();
-		dataModel->insertRow(row);
-		for (int col = 0; col < 7; ++col) {
-			QStandardItem* item = new QStandardItem(data[col]);
-			item->setTextAlignment(Qt::AlignCenter);
-			dataModel->setItem(row, col, item);
-		}
-	}
+    // åˆ›å»ºç¤ºä¾‹æ•°æ®
+    QVector<LogEntry> logEntries = {
+        {
+            QStringLiteral("1"), 
+            QStringLiteral("ç³»ç»Ÿå¯åŠ¨"),
+            QDateTime::currentDateTime().toString(QStringLiteral("yyyy-MM-dd hh:mm:ss")),
+            QStringLiteral("Info"),
+            QStringLiteral("ç³»ç»Ÿæ­£å¸¸å¯åŠ¨"),
+            QStringLiteral("none"),
+            QStringLiteral("[]")
+        },
+        {
+            QStringLiteral("2"),
+            QStringLiteral("æ¸©åº¦å‘Šè­¦"),
+            QDateTime::currentDateTime().addSecs(-3600).toString(QStringLiteral("yyyy-MM-dd hh:mm:ss")),
+            QStringLiteral("Warning"),
+            QStringLiteral("cpu over temperature"),
+            QStringLiteral("temp85"),
+            QStringLiteral("{\"sensor\":\"CPU01\"}")
+        }
+    };
+
+    // å°†æ•°æ®æ·»åŠ åˆ°æ¨¡å‹ä¸­
+    for (const auto& entry : logEntries) {
+        QList<QStandardItem*> row;
+        row << new QStandardItem(entry.id)
+            << new QStandardItem(entry.event)
+            << new QStandardItem(entry.time)
+            << new QStandardItem(entry.level)
+            << new QStandardItem(entry.message)
+            << new QStandardItem(entry.detail)
+            << new QStandardItem(entry.data);
+
+        // è®¾ç½®æ–‡æœ¬å¯¹é½æ–¹å¼
+        for (auto* item : row) {
+            item->setTextAlignment(Qt::AlignCenter);
+        }
+
+        dataModel->appendRow(row);
+    }
 }
 
 void acroViewTester::on_exportButton_clicked() {
-	QString fileName = QFileDialog::getSaveFileName(this, tr("µ¼³öExcelÎÄ¼ş"),
-		"", tr("Excel Files (*.xlsx *.xls)"));
-	if (fileName.isEmpty()) return;
-	exportToExcel(fileName);
+    QString fileName = QFileDialog::getSaveFileName(this, tr("å¯¼å‡ºExcelæ–‡ä»¶"),
+        "", tr("Excel Files (*.xlsx *.xls)"));
+    if (fileName.isEmpty()) return;
+    exportToExcel(fileName);
 }
 
 void acroViewTester::exportToExcel(const QString& fileName) 
 {
-	QAxObject* excel = new QAxObject("Excel.Application", this);
-	QAxObject* workbooks = excel->querySubObject("Workbooks");
-	QAxObject* workbook = workbooks->querySubObject("Add");
-	QAxObject* worksheets = workbook->querySubObject("Worksheets");
-	if (worksheets == nullptr) {
-		qDebug() << "Failed to get worksheets.";
-		return;
-	}
+    // åˆ›å»º Excel åº”ç”¨ç¨‹åºå®ä¾‹
+    QAxObject* excel = new QAxObject("Excel.Application", this);
+    if (excel->isNull()) {  // ä¿®æ”¹è¿™é‡Œï¼šä½¿ç”¨ isNull() æ›¿ä»£ isValid()
+        QMessageBox::critical(this, 
+            QStringLiteral("é”™è¯¯"),
+            QStringLiteral("æ— æ³•åˆ›å»ºExcelåº”ç”¨ç¨‹åºå®ä¾‹"));
+        delete excel;
+        return;
+    }
 
-	QAxObject* worksheet = worksheets->querySubObject("Item", 1);
-	if (worksheet == nullptr) {
-		qDebug() << "Failed to get worksheet.";
-		return;
-	}
-	worksheet->setProperty("Name", "ÈÕÖ¾µ¼³ö");
-	for (int col = 0; col < dataModel->columnCount(); ++col) {
-		QAxObject* cell = worksheet->querySubObject("Cells(int,int)", 1, col + 1);
-		cell->dynamicCall("SetValue(const QString&)", dataModel->headerData(col, Qt::Horizontal));
-		cell->setProperty("HorizontalAlignment", -4108); // ¾ÓÖĞ¶ÔÆë
-		delete cell;
-	}
+    QAxObject* workbooks = excel->querySubObject("Workbooks");
+    QAxObject* workbook = workbooks->querySubObject("Add");
+    QAxObject* worksheets = workbook->querySubObject("Worksheets");
+    
+    if (!worksheets) {
+        QMessageBox::critical(this, 
+            QString::fromUtf8("é”™è¯¯"),
+            QString::fromUtf8("cant get worksheets"));
+        excel->dynamicCall("Quit()");
+        delete excel;
+        return;
+    }
 
-	// Ğ´ÈëÊı¾İ
-	for (int row = 0; row < dataModel->rowCount(); ++row) {
-		for (int col = 0; col < dataModel->columnCount(); ++col) {
-			QAxObject* cell = worksheet->querySubObject("Cells(int,int)", row + 2, col + 1);
-			cell->dynamicCall("SetValue(const QString&)", dataModel->item(row, col)->text());
-			cell->setProperty("HorizontalAlignment", -4108);
-			delete cell;
-		}
-	}
+    QAxObject* worksheet = worksheets->querySubObject("Item(int)", 1);
+    
+    // è®¾ç½®å·¥ä½œè¡¨åç§°
+    worksheet->setProperty("Name", QString::fromUtf8("æ—¥å¿—å¯¼å‡º"));
 
-	// ×Ô¶¯µ÷ÕûÁĞ¿í
-	for (int col = 1; col <= dataModel->columnCount(); ++col) {
-		worksheet->querySubObject("Columns(int)", col)->dynamicCall("AutoFit()");
-	}
+    // å†™å…¥è¡¨å¤´
+    for (int col = 0; col < dataModel->columnCount(); ++col) {
+        QAxObject* cell = worksheet->querySubObject("Cells(int,int)", 1, col + 1);
+        QString headerText = dataModel->headerData(col, Qt::Horizontal).toString();
+        cell->setProperty("Value", headerText);
+        cell->setProperty("HorizontalAlignment", -4108); // xlCenter
+        delete cell;
+    }
 
-	// ±£´æÎÄ¼ş
-	workbook->dynamicCall("SaveAs(const QString&)", fileName);
-	workbook->dynamicCall("Close()");
-	excel->dynamicCall("Quit()");
+    // å†™å…¥æ•°æ®
+    for (int row = 0; row < dataModel->rowCount(); ++row) {
+        for (int col = 0; col < dataModel->columnCount(); ++col) {
+            QAxObject* cell = worksheet->querySubObject("Cells(int,int)", row + 2, col + 1);
+            QString cellText = dataModel->item(row, col)->text();
+            cell->setProperty("Value", cellText);
+            cell->setProperty("HorizontalAlignment", -4108);
+            delete cell;
+        }
+    }
 
-	// ÇåÀíCOM¶ÔÏó
-	delete worksheet;
-	delete workbook;
-	delete workbooks;
-	delete excel;
+    // è‡ªåŠ¨è°ƒæ•´åˆ—å®½
+    QAxObject* usedRange = worksheet->querySubObject("UsedRange");
+    usedRange->querySubObject("Columns")->dynamicCall("AutoFit");
+    delete usedRange;
 
-	QMessageBox::information(this, tr("µ¼³öÍê³É"),
-		tr("³É¹¦µ¼³öµ½£º%1").arg(fileName));
+    // ä¿å­˜å¹¶å…³é—­
+    workbook->dynamicCall("SaveAs(const QString&)", QDir::toNativeSeparators(fileName));
+    workbook->dynamicCall("Close()");
+    excel->dynamicCall("Quit()");
+
+    // æ¸…ç† COM å¯¹è±¡
+    delete worksheet;
+    delete worksheets;
+    delete workbook;
+    delete workbooks;
+    delete excel;
+
+    QMessageBox::information(this, 
+        QString::fromUtf8("å¯¼å‡ºå®Œæˆ"),
+        QString::fromUtf8("æˆåŠŸå¯¼å‡ºåˆ°ï¼š%1").arg(fileName));
 }

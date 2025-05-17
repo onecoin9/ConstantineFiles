@@ -4,7 +4,7 @@
 HandlerController::HandlerController()
     : m_isEnabled(false)
     , m_isBatchRunning(false)
-    , m_protocolVersion("1.0.0")  // 设置默认协议版本
+    , m_protocolVersion("1.0.0")  // 璁剧疆榛樿鍗忚鐗堟湰
 {
 }
 

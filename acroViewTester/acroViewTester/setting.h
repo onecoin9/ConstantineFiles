@@ -1,6 +1,6 @@
-﻿#ifndef SETTING_H
+#ifndef SETTING_H
 #define SETTING_H
-#pragma execution_character_set("utf-8")
+
 #include <QDialog>
 #include <QSettings>
 #include <QString>

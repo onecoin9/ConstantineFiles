@@ -10,22 +10,22 @@ public:
     HandlerController();
     ~HandlerController();
 
-    // ²éÑ¯Ğ­Òé°æ±¾ºÅ
+    // æŸ¥è¯¢åè®®ç‰ˆæœ¬å·
     void getVersion();
 
-    // Éè¶¨Ê¹ÄÜ
+    // è®¾å®šä½¿èƒ½
     void setEnable();
 
-    // ¿ªÊ¼ÅúÁ¿
+    // å¼€å§‹æ‰¹é‡
     void lotStart();
 
-    // ½áÊøÅúÁ¿
+    // ç»“æŸæ‰¹é‡
     void lotEnd();
 
-    // ½áÊø²âÊÔ
+    // ç»“æŸæµ‹è¯•
     void endTest();
 
-    // »ñÈ¡±¨¾¯ĞÅÏ¢
+    // è·å–æŠ¥è­¦ä¿¡æ¯
     void sendAlarm();
 
 private:

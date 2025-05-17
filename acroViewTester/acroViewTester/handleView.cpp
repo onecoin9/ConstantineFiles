@@ -18,13 +18,13 @@ void acroViewTester::openFileApp()
     QString path = settings.value("Paths/Aprog2Path").toString();
 
     if (path.isEmpty()) {
-        QMessageBox::warning(this, "¾¯¸æ", "ÇëÊäÈëÂ·¾¶");
+        QMessageBox::warning(this, "è­¦å‘Š", "è¯·è¾“å…¥è·¯å¾„");
         return;
     }
 
     QString filePath = path + "/aprog.exe";
     if (!QFile::exists(filePath)) {
-        QMessageBox::warning(this, "¾¯¸æ", "ÎÄ¼ş²»´æÔÚ");
+        QMessageBox::warning(this, "è­¦å‘Š", "æ–‡ä»¶ä¸å­˜åœ¨");
         return;
     }
     QProcess* process = new QProcess(this);
@@ -91,7 +91,7 @@ void acroViewTester::setupExpandButton()
         "}";
 
     ui.pushButtonExpand->setStyleSheet(buttonStyle);
-    ui.pushButtonExpand->setText(QString("¿â%1 - 36.36%").arg(1, 2, 10, QChar('0')));
+    ui.pushButtonExpand->setText(QString("åº“%1 - 36.36%").arg(1, 2, 10, QChar('0')));
     ui.pushButtonExpand->setMinimumWidth(200);
     ui.pushButtonExpand->setFixedHeight(25);
     m_statusDot = new QLabel(ui.pushButtonExpand);
@@ -151,7 +151,7 @@ void acroViewTester::showWidgetA()
         QWidget* contentWidget = createContentWidget(0);
         contentWidget->setStyleSheet("border: 1px solid black;");
         contentWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-        layout->addWidget(contentWidget, 0, 0); // ·ÅÖÃÔÚ (0, 0) Î»ÖÃ
+        layout->addWidget(contentWidget, 0, 0); // æ”¾ç½®åœ¨ (0, 0) ä½ç½®
 
         m_widgetA->setLayout(layout);
         QRect buttonRect = ui.pushButtonExpand->geometry();
@@ -172,7 +172,7 @@ QWidget* acroViewTester::createContentWidget(int index)
         "}"
     );
 
-    QLabel* titleLabel = new QLabel(QString("¿â%1 - 36.36%").arg(index + 1, 2, 10, QChar('0')), widget);
+    QLabel* titleLabel = new QLabel(QString("åº“%1 - 36.36%").arg(index + 1, 2, 10, QChar('0')), widget);
 
     titleLabel->setStyleSheet(
         "QLabel {"
@@ -191,13 +191,13 @@ QWidget* acroViewTester::createContentWidget(int index)
     };
 
     QVector<DataItem> items = {
-        {"Á¼Æ·Êı:", "8", "#90EE90", 30},
-        {"²»Á¼Êı:", "14", "#FFB6C1", 55},
-        {"ÖØ²âÊı:", "0", "#E6E6FA", 80},
-        {"Á¼ÂÊ%:", "36.36", "transparent", 105},
-        {"²úÆ·:", "LP00820", "transparent", 130},
-        {"×îĞÂ²Ù×÷Ô±:", "OP6705", "transparent", 155},
-        {"×îĞÂ²âÊÔÊ±¼ä:", "2025.04.07 12:31:11", "transparent", 180}
+        {"è‰¯å“æ•°:", "8", "#90EE90", 30},
+        {"ä¸è‰¯æ•°:", "14", "#FFB6C1", 55},
+        {"é‡æµ‹æ•°:", "0", "#E6E6FA", 80},
+        {"è‰¯ç‡%:", "36.36", "transparent", 105},
+        {"äº§å“:", "LP00820", "transparent", 130},
+        {"æœ€æ–°æ“ä½œå‘˜:", "OP6705", "transparent", 155},
+        {"æœ€æ–°æµ‹è¯•æ—¶é—´:", "2025.04.07 12:31:11", "transparent", 180}
     };
 
     const int leftMargin = 4;
@@ -261,10 +261,10 @@ QWidget* acroViewTester::createStatusLegend() {
     };
 
     QVector<StatusItem> items = {
-        {"#808080", "¿ÕÏĞ"},
-        {"#00FF00", "Á¼ÂÊ >= 90%"},
-        {"#FFFF00", "Á¼ÂÊ < 90%"},
-        {"#FF0000", "Á¼ÂÊ < 60%"}
+        {"#808080", "ç©ºé—²"},
+        {"#00FF00", "è‰¯ç‡ >= 90%"},
+        {"#FFFF00", "è‰¯ç‡ < 90%"},
+        {"#FF0000", "è‰¯ç‡ < 60%"}
     };
 
     for (const auto& item : items) {
@@ -352,24 +352,24 @@ void acroViewTester::createPathLabel(const QString& label, const QString& value,
     int valueWidth = 300;
     int valueLeftMargin = leftMargin + labelWidth + 10;
 
-    // ´´½¨±êÇ©
-    QLabel* labelWidget = new QLabel(label + ":", m_scrollContent);  // ×¢Òâ¸¸widget¸ÄÎªm_scrollContent
+    // åˆ›å»ºæ ‡ç­¾
+    QLabel* labelWidget = new QLabel(label + ":", m_scrollContent);  // æ³¨æ„çˆ¶widgetæ”¹ä¸ºm_scrollContent
     QLabel* valueWidget = new QLabel(value, m_scrollContent);
 
-    // ÉèÖÃÎ»ÖÃ
+    // è®¾ç½®ä½ç½®
     labelWidget->setGeometry(leftMargin, topMargin + row * rowHeight, labelWidth, rowHeight);
     valueWidget->setGeometry(valueLeftMargin, topMargin + row * rowHeight, valueWidth, rowHeight);
 
-    // ÉèÖÃÑùÊ½
+    // è®¾ç½®æ ·å¼
     labelWidget->setStyleSheet("QLabel { color: black; font-size: 12px; }");
     valueWidget->setStyleSheet("QLabel { color: blue; font-size: 12px; }");
 
-    // ±£´æ±êÇ©¶Ô
+    // ä¿å­˜æ ‡ç­¾å¯¹
     m_viceViewControls.pathLabels.append(qMakePair(labelWidget, valueWidget));
 
-    // µ÷ÕûÄÚÈİwidgetµÄ´óĞ¡ÒÔÊÊÓ¦ËùÓĞ±êÇ©
-    int contentHeight = topMargin + (row + 1) * rowHeight + 10;  // Ìí¼Óµ×²¿±ß¾à
-    int contentWidth = valueLeftMargin + valueWidth + 10;        // Ìí¼ÓÓÒ²à±ß¾à
+    // è°ƒæ•´å†…å®¹widgetçš„å¤§å°ä»¥é€‚åº”æ‰€æœ‰æ ‡ç­¾
+    int contentHeight = topMargin + (row + 1) * rowHeight + 10;  // æ·»åŠ åº•éƒ¨è¾¹è·
+    int contentWidth = valueLeftMargin + valueWidth + 10;        // æ·»åŠ å³ä¾§è¾¹è·
     m_scrollContent->setMinimumSize(contentWidth, contentHeight);
 }
 
@@ -378,29 +378,29 @@ void acroViewTester::showAgingTestControls()
     clearViceViewControls();
     QSettings settings("AcroView", "acroViewTester");
 
-    createPathLabel("ÈÕÖ¾Â·¾¶", settings.value("Paths/LogPath").toString(), 0);
-    createPathLabel("ÈÕÖ¾×ª»»Â·¾¶", settings.value("Paths/LogTransPath").toString(), 1);
-    createPathLabel("±¨¸æÂ·¾¶", settings.value("Paths/ReportPath").toString(), 2);
-    createPathLabel("×Ô¶¯»¯Â·¾¶", settings.value("Paths/AutoPath").toString(), 3);
-    createPathLabel("MESÂ·¾¶", settings.value("Paths/MesPath").toString(), 4);
-    createPathLabel("Åä·½Â·¾¶", settings.value("Paths/RecipePath").toString(), 5);
-    createPathLabel("ÏîÄ¿Â·¾¶", settings.value("Paths/ProjectPath").toString(), 6);
-    createPathLabel("Aprog2Â·¾¶", settings.value("Paths/Aprog2Path").toString(), 7);
-    createPathLabel("MultiAprogÂ·¾¶", settings.value("Paths/MultiAprogPath").toString(), 8);
+    createPathLabel("æ—¥å¿—è·¯å¾„", settings.value("Paths/LogPath").toString(), 0);
+    createPathLabel("æ—¥å¿—è½¬æ¢è·¯å¾„", settings.value("Paths/LogTransPath").toString(), 1);
+    createPathLabel("æŠ¥å‘Šè·¯å¾„", settings.value("Paths/ReportPath").toString(), 2);
+    createPathLabel("è‡ªåŠ¨åŒ–è·¯å¾„", settings.value("Paths/AutoPath").toString(), 3);
+    createPathLabel("MESè·¯å¾„", settings.value("Paths/MesPath").toString(), 4);
+    createPathLabel("é…æ–¹è·¯å¾„", settings.value("Paths/RecipePath").toString(), 5);
+    createPathLabel("é¡¹ç›®è·¯å¾„", settings.value("Paths/ProjectPath").toString(), 6);
+    createPathLabel("Aprog2è·¯å¾„", settings.value("Paths/Aprog2Path").toString(), 7);
+    createPathLabel("MultiAprogè·¯å¾„", settings.value("Paths/MultiAprogPath").toString(), 8);
 }
 
 void acroViewTester::showAG06Controls()
 {
     clearViceViewControls();
     QSettings settings("AcroView", "acroViewTester");
-    createPathLabel("AG06ÈÕÖ¾Â·¾¶", settings.value("Paths/LogPath").toString(), 0);
-    createPathLabel("AG06ÅäÖÃÂ·¾¶", settings.value("Paths/RecipePath").toString(), 1);
-    createPathLabel("AG06±¨¸æÂ·¾¶", settings.value("Paths/ReportPath").toString(), 2);
-    createPathLabel("AG06×Ô¶¯»¯Â·¾¶", settings.value("Paths/AutoPath").toString(), 3);
-    createPathLabel("AG06MESÂ·¾¶", settings.value("Paths/MesPath").toString(), 4);
-    createPathLabel("AG06Åä·½Â·¾¶", settings.value("Paths/RecipePath").toString(), 5);
-    createPathLabel("ÏîÄ¿Â·¾¶", settings.value("Paths/ProjectPath").toString(), 6);
-    createPathLabel("Aprog2Â·¾¶", settings.value("Paths/Aprog2Path").toString(), 7);
+    createPathLabel("AG06æ—¥å¿—è·¯å¾„", settings.value("Paths/LogPath").toString(), 0);
+    createPathLabel("AG06é…ç½®è·¯å¾„", settings.value("Paths/RecipePath").toString(), 1);
+    createPathLabel("AG06æŠ¥å‘Šè·¯å¾„", settings.value("Paths/ReportPath").toString(), 2);
+    createPathLabel("AG06è‡ªåŠ¨åŒ–è·¯å¾„", settings.value("Paths/AutoPath").toString(), 3);
+    createPathLabel("AG06MESè·¯å¾„", settings.value("Paths/MesPath").toString(), 4);
+    createPathLabel("AG06é…æ–¹è·¯å¾„", settings.value("Paths/RecipePath").toString(), 5);
+    createPathLabel("é¡¹ç›®è·¯å¾„", settings.value("Paths/ProjectPath").toString(), 6);
+    createPathLabel("Aprog2è·¯å¾„", settings.value("Paths/Aprog2Path").toString(), 7);
 }
 
 void acroViewTester::showAP8000Controls()
@@ -408,19 +408,19 @@ void acroViewTester::showAP8000Controls()
     clearViceViewControls();
     QSettings settings("AcroView", "acroViewTester");
 
-    createPathLabel("AP8000ÈÕÖ¾Â·¾¶", settings.value("Paths/LogPath").toString(), 0);
-    createPathLabel("AP8000ÅäÖÃÂ·¾¶", settings.value("Paths/RecipePath").toString(), 1);
-    createPathLabel("AP8000±¨¸æÂ·¾¶", settings.value("Paths/ReportPath").toString(), 2);
-    createPathLabel("AP8000×Ô¶¯»¯Â·¾¶", settings.value("Paths/AutoPath").toString(), 3);
-    createPathLabel("AP8000MESÂ·¾¶", settings.value("Paths/MesPath").toString(), 4);
-    createPathLabel("AP8000Åä·½Â·¾¶", settings.value("Paths/RecipePath").toString(), 5);
-    createPathLabel("ÏîÄ¿Â·¾¶", settings.value("Paths/ProjectPath").toString(), 6);
-    createPathLabel("MultiAprogÂ·¾¶", settings.value("Paths/MultiAprogPath").toString(), 7);
+    createPathLabel("AP8000æ—¥å¿—è·¯å¾„", settings.value("Paths/LogPath").toString(), 0);
+    createPathLabel("AP8000é…ç½®è·¯å¾„", settings.value("Paths/RecipePath").toString(), 1);
+    createPathLabel("AP8000æŠ¥å‘Šè·¯å¾„", settings.value("Paths/ReportPath").toString(), 2);
+    createPathLabel("AP8000è‡ªåŠ¨åŒ–è·¯å¾„", settings.value("Paths/AutoPath").toString(), 3);
+    createPathLabel("AP8000MESè·¯å¾„", settings.value("Paths/MesPath").toString(), 4);
+    createPathLabel("AP8000é…æ–¹è·¯å¾„", settings.value("Paths/RecipePath").toString(), 5);
+    createPathLabel("é¡¹ç›®è·¯å¾„", settings.value("Paths/ProjectPath").toString(), 6);
+    createPathLabel("MultiAprogè·¯å¾„", settings.value("Paths/MultiAprogPath").toString(), 7);
 }
 
 void acroViewTester::onSceneChanged(const QString& scene)
 {
-    if (scene == "ÀÏ»¯²âÊÔ") {
+    if (scene == "è€åŒ–æµ‹è¯•") {
         showAgingTestControls();
     }
     else if (scene == "AG06") {
@@ -467,9 +467,9 @@ void acroViewTester::setupMeasurementDialog() {
 void acroViewTester::setupTableView()
 {
     QStandardItemModel* model = new QStandardItemModel(this);
-    model->setHorizontalHeaderLabels({ "¿âÎ»", "°å×ÓSN", "×ù×ÓĞòºÅ", "×ù×ÓSN",
-                                     "Ê§°ÜÊ±¼ä", "Ïà¶ÔÊ±¼ä", "²ÎÊı",
-                                     "Ê§°ÜÖµ", "ÏÂÏŞ", "ÉÏÏŞ", "½×¶Î" });
+    model->setHorizontalHeaderLabels({ "åº“ä½", "æ¿å­SN", "åº§å­åºå·", "åº§å­SN",
+                                     "å¤±è´¥æ—¶é—´", "ç›¸å¯¹æ—¶é—´", "å‚æ•°",
+                                     "å¤±è´¥å€¼", "ä¸‹é™", "ä¸Šé™", "é˜¶æ®µ" });
 
     QList<QStandardItem*> row;
     row << new QStandardItem("A01")
@@ -482,7 +482,7 @@ void acroViewTester::setupTableView()
         << new QStandardItem("3.2")
         << new QStandardItem("3.0")
         << new QStandardItem("3.5")
-        << new QStandardItem("²âÊÔ½×¶Î1");
+        << new QStandardItem("æµ‹è¯•é˜¶æ®µ1");
     model->appendRow(row);
 
     ui.tableViewBaseData->setModel(model);
@@ -493,21 +493,21 @@ void acroViewTester::updateTableViewAlarmData()
 {
     tableViewAlarmData = ui.tableViewAlarmData;
 
-    // ÉèÖÃÄ£ĞÍºÍÊı¾İ
+    // è®¾ç½®æ¨¡å‹å’Œæ•°æ®
     QStandardItemModel* model = new QStandardItemModel(this);
-    model->setHorizontalHeaderLabels({ "ÈÕÆÚÊ±¼ä", "ÖÖÀà", "±¨¾¯Âë", "ĞÅÏ¢" });
+    model->setHorizontalHeaderLabels({ "æ—¥æœŸæ—¶é—´", "ç§ç±»", "æŠ¥è­¦ç ", "ä¿¡æ¯" });
 
     QList<QStandardItem*> row1;
     row1 << new QStandardItem("2025-04-09 12:22:13")
         << new QStandardItem("Alarm")
         << new QStandardItem("1001")
-        << new QStandardItem("LIBO1Í¨Ñ¶Òì³£");
+        << new QStandardItem("LIBO1é€šè®¯å¼‚å¸¸");
 
     QList<QStandardItem*> row2;
     row2 << new QStandardItem("2025-04-09 13:22:13")
         << new QStandardItem("Alarm")
         << new QStandardItem("1002")
-        << new QStandardItem("LIBO2Í¨Ñ¶Òì³£");
+        << new QStandardItem("LIBO2é€šè®¯å¼‚å¸¸");
 
     model->appendRow(row1);
     model->appendRow(row2);
@@ -518,16 +518,16 @@ void acroViewTester::updateTableViewAlarmData()
 
 void acroViewTester::createViewMenu()
 {
-    viewMenu = menuBar()->addMenu(tr("ÊÓÍ¼"));
+    viewMenu = menuBar()->addMenu(tr("è§†å›¾"));
     viewWidgets = {
         {"listViewProdInfo", ui.listViewProdInfo},
         {"tabWidgetMainView", ui.tabWidgetMainView},
         {"groupBoxViceView", ui.groupBoxViceView}
     };
     QMap<QString, QString> viewNames = {
-        {"listViewProdInfo", tr("²úÆ·ĞÅÏ¢ÁĞ±í")},
-        {"tabWidgetMainView", tr("Ö÷ÊÓÍ¼")},
-        {"groupBoxViceView", tr("¸±ÊÓÍ¼")}
+        {"listViewProdInfo", tr("äº§å“ä¿¡æ¯åˆ—è¡¨")},
+        {"tabWidgetMainView", tr("ä¸»è§†å›¾")},
+        {"groupBoxViceView", tr("å‰¯è§†å›¾")}
     };
 
     for (auto it = viewWidgets.begin(); it != viewWidgets.end(); ++it) {

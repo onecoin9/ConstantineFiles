@@ -7,13 +7,13 @@
 #include <Dbghelp.h>
 #pragma comment( lib, "Dbghelp.lib" )
 /// <summary>
-/// ³ÌĞòÒì³£²¶»ñ£¬ÉÏÎ»»ú±ÀÀ£µÄÊ±ºò²úÉúdump£¬·½Ãæ²é¿´
+/// ç¨‹åºå¼‚å¸¸æ•è·ï¼Œä¸Šä½æœºå´©æºƒçš„æ—¶å€™äº§ç”Ÿdumpï¼Œæ–¹é¢æŸ¥çœ‹
 /// </summary>
-/// <param name="pException">ÏµÍ³²¶»ñ²ÎÊı</param>
+/// <param name="pException">ç³»ç»Ÿæ•è·å‚æ•°</param>
 /// <returns></returns>
 LONG ExceptionCapture(EXCEPTION_POINTERS* pException)
 {
-    //µ±Ç°Ê±¼ä´®
+    //å½“å‰æ—¶é—´ä¸²
     const int TIMESTRLEN = 32;
     WCHAR timeStr[TIMESTRLEN];
     SYSTEMTIME time;
@@ -22,22 +22,22 @@ LONG ExceptionCapture(EXCEPTION_POINTERS* pException)
     WCHAR strname[MAX_PATH];
     swprintf_s(strname, MAX_PATH, L"acroview_%s.dmp", timeStr);
 
-    //´´½¨ Dump ÎÄ¼ş
+    //åˆ›å»º Dump æ–‡ä»¶
     HANDLE hDumpFile = CreateFile(strname, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
     if (hDumpFile != INVALID_HANDLE_VALUE)
     {
-        //DumpĞÅÏ¢
+        //Dumpä¿¡æ¯
         MINIDUMP_EXCEPTION_INFORMATION dumpInfo;
         dumpInfo.ExceptionPointers = pException;
         dumpInfo.ThreadId = GetCurrentThreadId();
         dumpInfo.ClientPointers = TRUE;
-        //Ğ´ÈëDumpÎÄ¼şÄÚÈİ
+        //å†™å…¥Dumpæ–‡ä»¶å†…å®¹
         MiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(), hDumpFile, MiniDumpNormal, &dumpInfo, nullptr, nullptr);
     }
 
 
-    //µ¯³ö´íÎó¶Ô»°¿ò²¢ÍË³ö³ÌĞò
-    //QMessageBox::critical(nullptr, "´íÎóÌáÊ¾", QString("µ±Ç°³ÌĞòÓöµ½Òì³£.\n  Òì³£ÎÄ¼ş:%1").arg(QString::fromWCharArray(strname)), QMessageBox::Ok, QMessageBox::Ok);
+    //å¼¹å‡ºé”™è¯¯å¯¹è¯æ¡†å¹¶é€€å‡ºç¨‹åº
+    //QMessageBox::critical(nullptr, "é”™è¯¯æç¤º", QString("å½“å‰ç¨‹åºé‡åˆ°å¼‚å¸¸.\n  å¼‚å¸¸æ–‡ä»¶:%1").arg(QString::fromWCharArray(strname)), QMessageBox::Ok, QMessageBox::Ok);
 
     return EXCEPTION_EXECUTE_HANDLER;
 }
@@ -45,7 +45,7 @@ LONG ExceptionCapture(EXCEPTION_POINTERS* pException)
 
 int main(int argc, char *argv[])
 {
-    //×¢ƒÔÒì³£²¶»ñº¯Êı
+    //æ³¨å†Šå¼‚å¸¸æ•è·å‡½æ•°
     SetUnhandledExceptionFilter((LPTOP_LEVEL_EXCEPTION_FILTER)ExceptionCapture);
     DumpUtil::InitDumpHandler(L"./dumps");
     QApplication a(argc, argv);

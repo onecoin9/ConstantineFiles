@@ -12,16 +12,16 @@ private slots:
     void onLoadInstrumentChannelChanged(int index);
 
 private:
-    // ·çÉÈ¿ØÖÆ
+    // é£æ‰‡æ§åˆ¶
     QList<QPushButton*> fanButtons;
     QLabel* fanLabel;
 
-    // µçÔ´¿ØÖÆ
+    // ç”µæºæ§åˆ¶
     QLabel* powerLabel;
     QLineEdit* powerInput;
     QList<QPushButton*> powerButtons;
 
-    // ¸ºÔØÒÇ¿ØÖÆ
+    // è´Ÿè½½ä»ªæ§åˆ¶
     QComboBox* loadInstrumentComboBox;
     QLabel* loadInstrumentLabel;
 };

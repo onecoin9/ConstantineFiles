@@ -6,45 +6,45 @@ MeasurementDialog::MeasurementDialog(QWidget* parent) :
     ui(new Ui::MeasurementDialog) {
     ui->setupUi(this);
 
-    // ÉèÖÃÑùÊ½±í
+    // è®¾ç½®æ ·å¼è¡¨
     setStyleSheet(
         "QDialog {"
-        "    background-color: #ffffff;"  // °×É«±³¾°
-        "    color: #000000;"  // ºÚÉ«ÎÄ×Ö
+        "    background-color: #ffffff;"  // ç™½è‰²èƒŒæ™¯
+        "    color: #000000;"  // é»‘è‰²æ–‡å­—
         "}"
         "QGroupBox {"
-        "    border: 1px solid #000000;"  // ºÚÉ«±ß¿ò
+        "    border: 1px solid #000000;"  // é»‘è‰²è¾¹æ¡†
         "    margin-top: 10px;"
         "}"
         "QGroupBox::title {"
         "    subcontrol-origin: margin;"
         "    subcontrol-position: top left;"
         "    padding: 0 3px;"
-        "    background-color: #ffffff;"  // °×É«±³¾°
-        "    color: #000000;"  // ºÚÉ«ÎÄ×Ö
+        "    background-color: #ffffff;"  // ç™½è‰²èƒŒæ™¯
+        "    color: #000000;"  // é»‘è‰²æ–‡å­—
         "}"
         "QLabel {"
-        "    color: #000000;"  // ºÚÉ«ÎÄ×Ö
+        "    color: #000000;"  // é»‘è‰²æ–‡å­—
         "}"
         "QLineEdit {"
-        "    border: 1px solid #000000;"  // ºÚÉ«±ß¿ò
-        "    background-color: #f0f0f0;"  // Ç³»ÒÉ«±³¾°
-        "    color: #000000;"  // ºÚÉ«ÎÄ×Ö
+        "    border: 1px solid #000000;"  // é»‘è‰²è¾¹æ¡†
+        "    background-color: #f0f0f0;"  // æµ…ç°è‰²èƒŒæ™¯
+        "    color: #000000;"  // é»‘è‰²æ–‡å­—
         "}"
         "QPushButton {"
-        "    background-color: #000000;"  // ºÚÉ«±³¾°
-        "    color: #ffffff;"  // °×É«ÎÄ×Ö
+        "    background-color: #000000;"  // é»‘è‰²èƒŒæ™¯
+        "    color: #ffffff;"  // ç™½è‰²æ–‡å­—
         "    border: none;"
         "    padding: 5px 10px;"
         "    border-radius: 5px;"
         "}"
         "QPushButton:hover {"
-        "    background-color: #333333;"  // Éî»ÒÉ«±³¾°
+        "    background-color: #333333;"  // æ·±ç°è‰²èƒŒæ™¯
         "}"
         "QComboBox {"
-        "    border: 1px solid #000000;"  // ºÚÉ«±ß¿ò
-        "    background-color: #f0f0f0;"  // Ç³»ÒÉ«±³¾°
-        "    color: #000000;"  // ºÚÉ«ÎÄ×Ö
+        "    border: 1px solid #000000;"  // é»‘è‰²è¾¹æ¡†
+        "    background-color: #f0f0f0;"  // æµ…ç°è‰²èƒŒæ™¯
+        "    color: #000000;"  // é»‘è‰²æ–‡å­—
         "}"
     );
     initCheckbox();
@@ -117,41 +117,41 @@ CheckBoxStatus MeasurementDialog::collectCheckBoxStatus()
 void MeasurementDialog::updateCheckBoxStatus()
 {
     CheckBoxStatus status = collectCheckBoxStatus();
-    // ÔÚÕâÀï´¦Àí¸üĞÂºóµÄ×´Ì¬£¬ÀıÈç·¢ËÍ¸øÆäËûÀà
+    // åœ¨è¿™é‡Œå¤„ç†æ›´æ–°åçš„çŠ¶æ€ï¼Œä¾‹å¦‚å‘é€ç»™å…¶ä»–ç±»
     // otherClass->receiveCheckBoxStatus(status);
 }
 
 void MeasurementDialog::handlePinContinuityTest()
 {
-    // ´¦Àí¹Ü½ÅÍ¨¶Ï²âÊÔµÄÂß¼­
+    // å¤„ç†ç®¡è„šé€šæ–­æµ‹è¯•çš„é€»è¾‘
 }
 
 void MeasurementDialog::handlePowerOnCurrentTest()
 {
-    // ´¦ÀíÉÏµçµçÁ÷²âÊÔµÄÂß¼­
+    // å¤„ç†ä¸Šç”µç”µæµæµ‹è¯•çš„é€»è¾‘
 }
 
 void MeasurementDialog::handleFrequencyScreening()
 {
-    // ´¦ÀíÆµÂÊÉ¸Ñ¡µÄÂß¼­
+    // å¤„ç†é¢‘ç‡ç­›é€‰çš„é€»è¾‘
 }
 
 void MeasurementDialog::handleScaleCalibration()
 {
-    // ´¦Àí±ê¶È±ê¶¨µÄÂß¼­
+    // å¤„ç†æ ‡åº¦æ ‡å®šçš„é€»è¾‘
 }
 
 void MeasurementDialog::handleFunctionalSafetyCalibration()
 {
-    // ´¦Àí¹¦ÄÜ°²È«±ê¶¨µÄÂß¼­
+    // å¤„ç†åŠŸèƒ½å®‰å…¨æ ‡å®šçš„é€»è¾‘
 }
 
 void MeasurementDialog::handleWriteOTP()
 {
-    // ´¦ÀíÉÕĞ´OTPµÄÂß¼­
+    // å¤„ç†çƒ§å†™OTPçš„é€»è¾‘
 }
 
 void MeasurementDialog::handlePSI5Test()
 {
-    // ´¦ÀíPSI5ÏÂ²âÊÔµÄÂß¼­
+    // å¤„ç†PSI5ä¸‹æµ‹è¯•çš„é€»è¾‘
 }

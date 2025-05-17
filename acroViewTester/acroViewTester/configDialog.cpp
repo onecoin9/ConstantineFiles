@@ -3,30 +3,29 @@
 #include <QTableWidgetItem>
 #include <QtWidgets>
 #include <QtWidgets/qmessagebox.h>
-#pragma execution_character_set("utf-8")
 ConfigDialog::ConfigDialog(QWidget* parent) : QWidget(parent),
 ui(new Ui::ConfigDialog)
 {
     ui->setupUi(this);
 
-    // Á¬½Ó btnInport °´Å¥
+    // è¿æ¥ btnInport æŒ‰é’®
     connect(ui->btnInport, &QPushButton::clicked, this, [=]()
         { on_btnInport_clicked("btnInport"); });
 
-    // Á¬½Ó btnInportSpec °´Å¥
+    // è¿æ¥ btnInportSpec æŒ‰é’®
     connect(ui->btnInportSpec, &QPushButton::clicked, this, [=]()
         { on_btnInport_clicked("btnInportSpec"); });
-    // ÉèÖÃÑùÊ½±í
+    // è®¾ç½®æ ·å¼è¡¨
     tableStyleSheet = R"(
     QTableWidget {
-        color: #000000; /* µ¥Ôª¸ñÎÄ×ÖÑÕÉ«¸ÄÎªºÚÉ« */
+        color: #000000; /* å•å…ƒæ ¼æ–‡å­—é¢œè‰²æ”¹ä¸ºé»‘è‰² */
         background: #f8f8f8;
         border: 1px solid #242424;
-        alternate-background-color: #525252; /* ½»ÌæĞĞÑÕÉ« */
+        alternate-background-color: #525252; /* äº¤æ›¿è¡Œé¢œè‰² */
         gridline-color: #242424;
     }
     QTableWidget::item:selected {
-        color: #000000; /* Ñ¡ÖĞÏîÎÄ×ÖÑÕÉ«¸ÄÎªºÚÉ« */
+        color: #000000; /* é€‰ä¸­é¡¹æ–‡å­—é¢œè‰²æ”¹ä¸ºé»‘è‰² */
         background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 #484848, stop:1 #383838);
     }
     QTableWidget::item:hover {
@@ -34,10 +33,10 @@ ui(new Ui::ConfigDialog)
     }
     QHeaderView::section {
         text-align: center;
-        background: #c5e3f6; /* ĞÂµÄ±íÍ·±³¾°É« */
+        background: #c5e3f6; /* æ–°çš„è¡¨å¤´èƒŒæ™¯è‰² */
         padding: 3px;
         margin: 0px;
-        color: #000000; /* ±íÍ·ÎÄ×ÖÑÕÉ«¸ÄÎªºÚÉ« */
+        color: #000000; /* è¡¨å¤´æ–‡å­—é¢œè‰²æ”¹ä¸ºé»‘è‰² */
         border: 1px solid #242424;
         border-left-width: 0;
     }
@@ -66,16 +65,16 @@ ui(new Ui::ConfigDialog)
         background: none;
     }
     QTableWidget::item:selected {
-        background: #e2f3f5; /* Ñ¡ÖĞÏî±³¾°É« */
+        background: #e2f3f5; /* é€‰ä¸­é¡¹èƒŒæ™¯è‰² */
     }
     QTableWidget::item:hover {
-        background: #88bef5; /* Ğü¸¡Ïî±³¾°É« */
+        background: #88bef5; /* æ‚¬æµ®é¡¹èƒŒæ™¯è‰² */
     }
     QTableWidget {
-        alternate-background-color: #43dde6; /* ½»ÌæĞĞ±³¾°É« */
+        alternate-background-color: #43dde6; /* äº¤æ›¿è¡ŒèƒŒæ™¯è‰² */
     }
     QTableWidget::item {
-        color: #000000; /* µ¥Ôª¸ñÎÄ×ÖÑÕÉ«¸ÄÎªºÚÉ« */
+        color: #000000; /* å•å…ƒæ ¼æ–‡å­—é¢œè‰²æ”¹ä¸ºé»‘è‰² */
     }
 )";
 
@@ -96,7 +95,7 @@ void ConfigDialog::initTableFlow()
     ui->tableFlow->setRowCount(0);
     ui->tableFlow->setColumnCount(9);
 
-    QStringList headers = { "ĞòºÅ","ID", "Class Name", "Alias", "Loop Count", "Test Mode", "Pass Do", "Fail Do", "Comment" };
+    QStringList headers = { "åºå·","ID", "Class Name", "Alias", "Loop Count", "Test Mode", "Pass Do", "Fail Do", "Comment" };
     ui->tableFlow->setHorizontalHeaderLabels(headers);
 
     ui->tableFlow->horizontalHeader()->setStretchLastSection(true);
@@ -109,7 +108,7 @@ void ConfigDialog::initTableFlow()
 void ConfigDialog::initTableSpec()
 {
     ui->tableSpec->setRowCount(0);
-    ui->tableSpec->setColumnCount(9);  // ¼õÉÙÁĞÊı
+    ui->tableSpec->setColumnCount(9);  // å‡å°‘åˆ—æ•°
 
     QStringList headers = { 
         "ID", 
@@ -117,8 +116,8 @@ void ConfigDialog::initTableSpec()
         "Alias Name", 
         "Params",      
         "Value",
-        "Lower Limit", // ĞÂÔöÏÂÏŞÁĞ
-        "Upper Limit", // ĞÂÔöÉÏÏŞÁĞ
+        "Lower Limit", // æ–°å¢ä¸‹é™åˆ—
+        "Upper Limit", // æ–°å¢ä¸Šé™åˆ—
         "Bin Name", 
         "Comment" 
     };
@@ -133,7 +132,7 @@ void ConfigDialog::initTableSpec()
 }
 void ConfigDialog::updateTableFlow()
 {
-    // ÔİÊ±¶Ï¿ªĞÅºÅÁ¬½Ó
+    // æš‚æ—¶æ–­å¼€ä¿¡å·è¿æ¥
     disconnect(ui->tableFlow, &QTableWidget::cellChanged, this, &ConfigDialog::on_tableFlowCellChanged);
 
     ui->tableFlow->setRowCount(testItems.size());
@@ -141,7 +140,7 @@ void ConfigDialog::updateTableFlow()
     {
         QTableWidgetItem* indexItem = new QTableWidgetItem(QString::number(i + 1));
         indexItem->setTextAlignment(Qt::AlignCenter);
-        indexItem->setFlags(indexItem->flags() & ~Qt::ItemIsEditable); // ½ûÖ¹±à¼­ĞòºÅÁĞ
+        indexItem->setFlags(indexItem->flags() & ~Qt::ItemIsEditable); // ç¦æ­¢ç¼–è¾‘åºå·åˆ—
         ui->tableFlow->setItem(i, 0, indexItem);
         const TestItem& item = testItems[i];
         QTableWidgetItem* idItem = new QTableWidgetItem(item.id);
@@ -196,7 +195,7 @@ void ConfigDialog::updateTableFlow()
         ui->tableFlow->setCellWidget(i, 5, comboBox);
     }
 
-    // »Ö¸´ĞÅºÅÁ¬½Ó
+    // æ¢å¤ä¿¡å·è¿æ¥
     connect(ui->tableFlow, &QTableWidget::cellChanged, this, &ConfigDialog::on_tableFlowCellChanged);
 }
 
@@ -216,7 +215,7 @@ void ConfigDialog::populateTableSpecRow(int row, const SpecItem& item)
 
 void ConfigDialog::updateTableSpec()
 {
-    // ÔİÊ±¶Ï¿ªĞÅºÅÁ¬½Ó
+    // æš‚æ—¶æ–­å¼€ä¿¡å·è¿æ¥
     disconnect(ui->tableSpec, &QTableWidget::cellChanged, this, &ConfigDialog::on_tableSpecCellChanged);
 
     ui->tableSpec->setRowCount(specItems.size());
@@ -225,7 +224,7 @@ void ConfigDialog::updateTableSpec()
         populateTableSpecRow(i, specItems[i]);
     }
 
-    // »Ö¸´ĞÅºÅÁ¬½Ó
+    // æ¢å¤ä¿¡å·è¿æ¥
     connect(ui->tableSpec, &QTableWidget::cellChanged, this, &ConfigDialog::on_tableSpecCellChanged);
 }
 
@@ -303,7 +302,7 @@ void ConfigDialog::syncSpecWithFlow()
 }
 void ConfigDialog::on_btnInport_clicked(const QString& buttonId)
 {
-    QString filePath = QFileDialog::getOpenFileName(this, tr("Ñ¡ÔñÅäÖÃÎÄ¼ş"), "", tr("JSON ÎÄ¼ş (*.json *.tester_config)"));
+    QString filePath = QFileDialog::getOpenFileName(this, tr("é€‰æ‹©é…ç½®æ–‡ä»¶"), "", tr("JSON æ–‡ä»¶ (*.json *.tester_config)"));
     if (filePath.isEmpty())
     {
         return;
@@ -312,21 +311,21 @@ void ConfigDialog::on_btnInport_clicked(const QString& buttonId)
     QFile file(filePath);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        QMessageBox::warning(this, tr("´íÎó"), tr("ÎŞ·¨´ò¿ªÎÄ¼ş£º%1").arg(filePath));
+        QMessageBox::warning(this, tr("é”™è¯¯"), tr("æ— æ³•æ‰“å¼€æ–‡ä»¶ï¼š%1").arg(filePath));
         return;
     }
 
     QByteArray fileData = file.readAll();
     file.close();
 
-    // ÅĞ¶Ï°´Å¥ ID£¬¾ö¶¨¸üĞÂÄÄ¸ö±í¸ñ
+    // åˆ¤æ–­æŒ‰é’® IDï¼Œå†³å®šæ›´æ–°å“ªä¸ªè¡¨æ ¼
     if (buttonId == "btnInport")
     {
-        // ¸üĞÂ tableFlow
+        // æ›´æ–° tableFlow
         QJsonDocument jsonDoc = QJsonDocument::fromJson(fileData);
         if (jsonDoc.isNull() || !jsonDoc.isObject())
         {
-            QMessageBox::warning(this, tr("´íÎó"), tr("ÎÄ¼ş¸ñÊ½´íÎó»òÄÚÈİÎŞĞ§"));
+            QMessageBox::warning(this, tr("é”™è¯¯"), tr("æ–‡ä»¶æ ¼å¼é”™è¯¯æˆ–å†…å®¹æ— æ•ˆ"));
             return;
         }
 
@@ -337,7 +336,7 @@ void ConfigDialog::on_btnInport_clicked(const QString& buttonId)
             if (flowConfig.contains("TestItems") && flowConfig["TestItems"].isArray())
             {
                 QJsonArray jsonTestItems = flowConfig["TestItems"].toArray();
-                testItems.clear(); // Çå¿ÕÖ®Ç°µÄÊı¾İ
+                testItems.clear(); // æ¸…ç©ºä¹‹å‰çš„æ•°æ®
 
                 for (const QJsonValue& value : jsonTestItems)
                 {
@@ -354,25 +353,25 @@ void ConfigDialog::on_btnInport_clicked(const QString& buttonId)
 
                     testItems.append(testItem);
                 }
-                updateTableFlow(); // ¸üĞÂ tableFlow
+                updateTableFlow(); // æ›´æ–° tableFlow
             }
             else
             {
-                QMessageBox::warning(this, tr("´íÎó"), tr("FlowConfig ÖĞÈ±ÉÙ TestItems ²¿·Ö"));
+                QMessageBox::warning(this, tr("é”™è¯¯"), tr("FlowConfig ä¸­ç¼ºå°‘ TestItems éƒ¨åˆ†"));
             }
         }
         else
         {
-            QMessageBox::warning(this, tr("´íÎó"), tr("ÅäÖÃÎÄ¼şÖĞÈ±ÉÙ FlowConfig ²¿·Ö"));
+            QMessageBox::warning(this, tr("é”™è¯¯"), tr("é…ç½®æ–‡ä»¶ä¸­ç¼ºå°‘ FlowConfig éƒ¨åˆ†"));
         }
     }
     else if (buttonId == "btnInportSpec")
     {
-        // ¸üĞÂ tableSpec
+        // æ›´æ–° tableSpec
         QJsonDocument jsonDoc = QJsonDocument::fromJson(fileData);
         if (jsonDoc.isNull() || !jsonDoc.isObject())
         {
-            QMessageBox::warning(this, tr("´íÎó"), tr("ÎÄ¼ş¸ñÊ½´íÎó»òÄÚÈİÎŞĞ§"));
+            QMessageBox::warning(this, tr("é”™è¯¯"), tr("æ–‡ä»¶æ ¼å¼é”™è¯¯æˆ–å†…å®¹æ— æ•ˆ"));
             return;
         }
 
@@ -383,7 +382,7 @@ void ConfigDialog::on_btnInport_clicked(const QString& buttonId)
             if (specConfig.contains("SpecList") && specConfig["SpecList"].isArray())
             {
                 QJsonArray jsonSpecItems = specConfig["SpecList"].toArray();
-                specItems.clear(); // Çå¿ÕÖ®Ç°µÄÊı¾İ
+                specItems.clear(); // æ¸…ç©ºä¹‹å‰çš„æ•°æ®
 
                 for (const QJsonValue& value : jsonSpecItems)
                 {
@@ -394,8 +393,8 @@ void ConfigDialog::on_btnInport_clicked(const QString& buttonId)
                     specItem.aliasName = itemObj.value("AliasName").toString();
                     specItem.params = itemObj.value("Params").toString();
                     specItem.value = itemObj.value("Value").toString();
-                    specItem.lowerLimit = itemObj.value("LowerLimit").toString(); // Ìí¼ÓÏÂÏŞ
-                    specItem.upperLimit = itemObj.value("UpperLimit").toString(); // Ìí¼ÓÉÏÏŞ
+                    specItem.lowerLimit = itemObj.value("LowerLimit").toString(); // æ·»åŠ ä¸‹é™
+                    specItem.upperLimit = itemObj.value("UpperLimit").toString(); // æ·»åŠ ä¸Šé™
                     specItem.binName = itemObj.value("BinName").toString();
                     specItem.comment = itemObj.contains("Comment") ?
                         itemObj.value("Comment").toString() : "";
@@ -403,21 +402,21 @@ void ConfigDialog::on_btnInport_clicked(const QString& buttonId)
                     specItems.append(specItem);
                 }
 
-                updateTableSpec(); // ¸üĞÂ tableSpec
+                updateTableSpec(); // æ›´æ–° tableSpec
             }
             else
             {
-                QMessageBox::warning(this, tr("´íÎó"), tr("SpecConfig ÖĞÈ±ÉÙ SpecItems ²¿·Ö"));
+                QMessageBox::warning(this, tr("é”™è¯¯"), tr("SpecConfig ä¸­ç¼ºå°‘ SpecItems éƒ¨åˆ†"));
             }
         }
         else
         {
-            QMessageBox::warning(this, tr("´íÎó"), tr("ÅäÖÃÎÄ¼şÖĞÈ±ÉÙ SpecConfig ²¿·Ö"));
+            QMessageBox::warning(this, tr("é”™è¯¯"), tr("é…ç½®æ–‡ä»¶ä¸­ç¼ºå°‘ SpecConfig éƒ¨åˆ†"));
         }
     }
     else
     {
-        QMessageBox::warning(this, tr("´íÎó"), tr("FlowConfig ÖĞÈ±ÉÙ TestItems ²¿·Ö"));
+        QMessageBox::warning(this, tr("é”™è¯¯"), tr("FlowConfig ä¸­ç¼ºå°‘ TestItems éƒ¨åˆ†"));
     }
 
 }
@@ -426,17 +425,17 @@ void ConfigDialog::loadFlowConfig(const QJsonObject& flowConfig)
 {
     if (!flowConfig.contains("TestItems") || !flowConfig["TestItems"].isArray())
     {
-        QMessageBox::warning(this, tr("´íÎó"), tr("FlowConfig ÖĞÈ±ÉÙ TestItems ²¿·Ö"));
+        QMessageBox::warning(this, tr("é”™è¯¯"), tr("FlowConfig ä¸­ç¼ºå°‘ TestItems éƒ¨åˆ†"));
         return;
     }
 
     QJsonArray testItems = flowConfig["TestItems"].toArray();
 
-    // ÉèÖÃ tableFlow µÄĞĞÊıºÍÁĞÊı
+    // è®¾ç½® tableFlow çš„è¡Œæ•°å’Œåˆ—æ•°
     ui->tableFlow->setRowCount(testItems.size());
     ui->tableFlow->setColumnCount(8);
 
-    // ±éÀú TestItems Êı¾İ
+    // éå† TestItems æ•°æ®
     for (int i = 0; i < testItems.size(); ++i)
     {
         QJsonObject item = testItems[i].toObject();
@@ -450,7 +449,7 @@ void ConfigDialog::loadFlowConfig(const QJsonObject& flowConfig)
         QString failDo = item.value("FailDo").toString();
         QString comment = item.contains("Comment") ? item.value("Comment").toString() : "";
 
-        // ´´½¨±í¸ñÏî
+        // åˆ›å»ºè¡¨æ ¼é¡¹
         QTableWidgetItem* idItem = new QTableWidgetItem(id);
         QTableWidgetItem* classNameItem = new QTableWidgetItem(className);
         QTableWidgetItem* aliasItem = new QTableWidgetItem(alias);
@@ -459,7 +458,7 @@ void ConfigDialog::loadFlowConfig(const QJsonObject& flowConfig)
         QTableWidgetItem* failDoItem = new QTableWidgetItem(failDo);
         QTableWidgetItem* commentItem = new QTableWidgetItem(comment);
 
-        // ÉèÖÃ±í¸ñÏîµ½ tableFlow
+        // è®¾ç½®è¡¨æ ¼é¡¹åˆ° tableFlow
         ui->tableFlow->setItem(i, 0, idItem);
         ui->tableFlow->setItem(i, 1, classNameItem);
         ui->tableFlow->setItem(i, 2, aliasItem);
@@ -468,10 +467,10 @@ void ConfigDialog::loadFlowConfig(const QJsonObject& flowConfig)
         ui->tableFlow->setItem(i, 6, failDoItem);
         ui->tableFlow->setItem(i, 7, commentItem);
 
-        // ÉèÖÃ Test Mode ÁĞÎª QComboBox
+        // è®¾ç½® Test Mode åˆ—ä¸º QComboBox
         QComboBox* comboBox = new QComboBox(this);
         comboBox->addItems({ "Skip", "Test" });
-        comboBox->setCurrentText(testMode); // ÉèÖÃÄ¬ÈÏÖµ
+        comboBox->setCurrentText(testMode); // è®¾ç½®é»˜è®¤å€¼
         connect(comboBox, &QComboBox::currentTextChanged, this, [=](const QString& mode)
             { on_tableFlowTestModeChanged(i, mode); });
         ui->tableFlow->setCellWidget(i, 4, comboBox);
@@ -480,7 +479,7 @@ void ConfigDialog::loadFlowConfig(const QJsonObject& flowConfig)
 
 void ConfigDialog::initTablePin()
 {
-    // ³õÊ¼»¯ Pin ÅäÖÃ±í
+    // åˆå§‹åŒ– Pin é…ç½®è¡¨
     ui->tablePinConfig->setRowCount(0);
     ui->tablePinConfig->setColumnCount(5);
 
@@ -489,10 +488,10 @@ void ConfigDialog::initTablePin()
 
     ui->tablePinConfig->horizontalHeader()->setStretchLastSection(true);
     ui->tablePinConfig->verticalHeader()->setVisible(false);
-    ui->tablePinConfig->setColumnWidth(0, 150); // ÉèÖÃÁĞ¿í
+    ui->tablePinConfig->setColumnWidth(0, 150); // è®¾ç½®åˆ—å®½
     ui->tablePinConfig->setStyleSheet(tableStyleSheet);
 
-    // ³õÊ¼»¯ Pin Group ÅäÖÃ±í
+    // åˆå§‹åŒ– Pin Group é…ç½®è¡¨
     ui->tablePinGroupConfig->setRowCount(0);
     ui->tablePinGroupConfig->setColumnCount(3);
 
@@ -501,7 +500,7 @@ void ConfigDialog::initTablePin()
 
     ui->tablePinGroupConfig->horizontalHeader()->setStretchLastSection(true);
     ui->tablePinGroupConfig->verticalHeader()->setVisible(false);
-    ui->tablePinGroupConfig->setColumnWidth(0, 150); // ÉèÖÃÁĞ¿í
+    ui->tablePinGroupConfig->setColumnWidth(0, 150); // è®¾ç½®åˆ—å®½
     ui->tablePinGroupConfig->setStyleSheet(tableStyleSheet);
 }
 
@@ -515,24 +514,24 @@ void ConfigDialog::initTableBin()
 
     ui->tableBinConfig->horizontalHeader()->setStretchLastSection(true);
     ui->tableBinConfig->verticalHeader()->setVisible(false);
-    ui->tableBinConfig->setColumnWidth(0, 150); // ÉèÖÃÁĞ¿í
+    ui->tableBinConfig->setColumnWidth(0, 150); // è®¾ç½®åˆ—å®½
     ui->tableBinConfig->setStyleSheet(tableStyleSheet);
 }
 
 void ConfigDialog::on_btnExportSpec_clicked()
 {
-    // ´ò¿ªÎÄ¼ş±£´æ¶Ô»°¿ò
-    QString filePath = QFileDialog::getSaveFileName(this, tr("±£´æÅäÖÃÎÄ¼ş"), "", tr("JSON ÎÄ¼ş (*.json *.tester_config)"));
+    // æ‰“å¼€æ–‡ä»¶ä¿å­˜å¯¹è¯æ¡†
+    QString filePath = QFileDialog::getSaveFileName(this, tr("ä¿å­˜é…ç½®æ–‡ä»¶"), "", tr("JSON æ–‡ä»¶ (*.json *.tester_config)"));
     if (filePath.isEmpty())
     {
         return;
     }
 
-    // ¶ÁÈ¡ÏÖÓĞµÄ JSON ÎÄ¼ş
+    // è¯»å–ç°æœ‰çš„ JSON æ–‡ä»¶
     QFile file(filePath);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        QMessageBox::warning(this, tr("´íÎó"), tr("ÎŞ·¨´ò¿ªÎÄ¼ş£º%1").arg(filePath));
+        QMessageBox::warning(this, tr("é”™è¯¯"), tr("æ— æ³•æ‰“å¼€æ–‡ä»¶ï¼š%1").arg(filePath));
         return;
     }
 
@@ -542,13 +541,13 @@ void ConfigDialog::on_btnExportSpec_clicked()
     QJsonDocument jsonDoc = QJsonDocument::fromJson(fileData);
     if (jsonDoc.isNull() || !jsonDoc.isObject())
     {
-        QMessageBox::warning(this, tr("´íÎó"), tr("ÎÄ¼ş¸ñÊ½´íÎó»òÄÚÈİÎŞĞ§"));
+        QMessageBox::warning(this, tr("é”™è¯¯"), tr("æ–‡ä»¶æ ¼å¼é”™è¯¯æˆ–å†…å®¹æ— æ•ˆ"));
         return;
     }
 
     QJsonObject rootObject = jsonDoc.object();
 
-    // ¹¹ÔìĞÂµÄ SpecList Êı¾İ
+    // æ„é€ æ–°çš„ SpecList æ•°æ®
     QJsonArray specArray;
     for (const SpecItem& item : specItems)
     {
@@ -558,36 +557,36 @@ void ConfigDialog::on_btnExportSpec_clicked()
         specObject["AliasName"] = item.aliasName;
         specObject["Params"] = item.params;
         specObject["Value"] = item.value;
-        specObject["LowerLimit"] = item.lowerLimit; // Ìí¼ÓÏÂÏŞ
-        specObject["UpperLimit"] = item.upperLimit; // Ìí¼ÓÉÏÏŞ
+        specObject["LowerLimit"] = item.lowerLimit; // æ·»åŠ ä¸‹é™
+        specObject["UpperLimit"] = item.upperLimit; // æ·»åŠ ä¸Šé™
         specObject["BinName"] = item.binName;
         specObject["Comment"] = item.comment;
 
         specArray.append(specObject);
     }
 
-    // ¸üĞÂ SpecList ²¿·Ö
+    // æ›´æ–° SpecList éƒ¨åˆ†
     if (!rootObject.contains("SpecConfig") || !rootObject["SpecConfig"].isObject())
     {
-        rootObject["SpecConfig"] = QJsonObject(); // Èç¹û SpecConfig ²»´æÔÚ£¬Ôò´´½¨
+        rootObject["SpecConfig"] = QJsonObject(); // å¦‚æœ SpecConfig ä¸å­˜åœ¨ï¼Œåˆ™åˆ›å»º
     }
 
     QJsonObject specConfig = rootObject["SpecConfig"].toObject();
-    specConfig["SpecList"] = specArray; // ¸üĞÂ SpecList
+    specConfig["SpecList"] = specArray; // æ›´æ–° SpecList
     rootObject["SpecConfig"] = specConfig;
 
-    // ½«¸üĞÂºóµÄ JSON Ğ´»ØÎÄ¼ş
+    // å°†æ›´æ–°åçš„ JSON å†™å›æ–‡ä»¶
     jsonDoc.setObject(rootObject);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
-        QMessageBox::warning(this, tr("´íÎó"), tr("ÎŞ·¨±£´æÎÄ¼ş£º%1").arg(filePath));
+        QMessageBox::warning(this, tr("é”™è¯¯"), tr("æ— æ³•ä¿å­˜æ–‡ä»¶ï¼š%1").arg(filePath));
         return;
     }
 
     file.write(jsonDoc.toJson(QJsonDocument::Indented));
     file.close();
 
-    QMessageBox::information(this, tr("³É¹¦"), tr("SpecList ÒÑ³É¹¦¸üĞÂµ½ÎÄ¼ş£º%1").arg(filePath));
+    QMessageBox::information(this, tr("æˆåŠŸ"), tr("SpecList å·²æˆåŠŸæ›´æ–°åˆ°æ–‡ä»¶ï¼š%1").arg(filePath));
 }
 
 void ConfigDialog::on_tableSpecCellChanged(int row, int column)
@@ -633,12 +632,12 @@ void ConfigDialog::on_tableFlowCellChanged(int row, int column)
 {
     if (row < 0 || row >= testItems.size())
     {
-        return; // Èç¹ûĞĞºÅÎŞĞ§£¬Ö±½Ó·µ»Ø
+        return; // å¦‚æœè¡Œå·æ— æ•ˆï¼Œç›´æ¥è¿”å›
     }
 
-    TestItem& item = testItems[row]; // »ñÈ¡¶ÔÓ¦µÄ TestItem
+    TestItem& item = testItems[row]; // è·å–å¯¹åº”çš„ TestItem
 
-    // ¸ù¾İÁĞºÅ¸üĞÂ TestItem µÄ¶ÔÓ¦×Ö¶Î
+    // æ ¹æ®åˆ—å·æ›´æ–° TestItem çš„å¯¹åº”å­—æ®µ
     switch (column)
     {
     case 0: // ID
@@ -675,18 +674,18 @@ void ConfigDialog::on_tableFlowCellChanged(int row, int column)
 
 void ConfigDialog::on_btnExportFlow_clicked()
 {
-    // ´ò¿ªÎÄ¼ş±£´æ¶Ô»°¿ò
-    QString filePath = QFileDialog::getSaveFileName(this, tr("±£´æÅäÖÃÎÄ¼ş"), "", tr("JSON ÎÄ¼ş (*.json *.tester_config)"));
+    // æ‰“å¼€æ–‡ä»¶ä¿å­˜å¯¹è¯æ¡†
+    QString filePath = QFileDialog::getSaveFileName(this, tr("ä¿å­˜é…ç½®æ–‡ä»¶"), "", tr("JSON æ–‡ä»¶ (*.json *.tester_config)"));
     if (filePath.isEmpty())
     {
         return;
     }
 
-    // ¶ÁÈ¡ÏÖÓĞµÄ JSON ÎÄ¼ş
+    // è¯»å–ç°æœ‰çš„ JSON æ–‡ä»¶
     QFile file(filePath);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        QMessageBox::warning(this, tr("´íÎó"), tr("ÎŞ·¨´ò¿ªÎÄ¼ş£º%1").arg(filePath));
+        QMessageBox::warning(this, tr("é”™è¯¯"), tr("æ— æ³•æ‰“å¼€æ–‡ä»¶ï¼š%1").arg(filePath));
         return;
     }
 
@@ -696,13 +695,13 @@ void ConfigDialog::on_btnExportFlow_clicked()
     QJsonDocument jsonDoc = QJsonDocument::fromJson(fileData);
     if (jsonDoc.isNull() || !jsonDoc.isObject())
     {
-        QMessageBox::warning(this, tr("´íÎó"), tr("ÎÄ¼ş¸ñÊ½´íÎó»òÄÚÈİÎŞĞ§"));
+        QMessageBox::warning(this, tr("é”™è¯¯"), tr("æ–‡ä»¶æ ¼å¼é”™è¯¯æˆ–å†…å®¹æ— æ•ˆ"));
         return;
     }
 
     QJsonObject rootObject = jsonDoc.object();
 
-    // ¹¹ÔìĞÂµÄ TestItems Êı¾İ
+    // æ„é€ æ–°çš„ TestItems æ•°æ®
     QJsonArray testItemsArray;
     for (const TestItem& item : testItems)
     {
@@ -719,35 +718,35 @@ void ConfigDialog::on_btnExportFlow_clicked()
         testItemsArray.append(testObject);
     }
 
-    // ¸üĞÂ FlowConfig ²¿·Ö
+    // æ›´æ–° FlowConfig éƒ¨åˆ†
     if (!rootObject.contains("FlowConfig") || !rootObject["FlowConfig"].isObject())
     {
-        rootObject["FlowConfig"] = QJsonObject(); // Èç¹û FlowConfig ²»´æÔÚ£¬Ôò´´½¨
+        rootObject["FlowConfig"] = QJsonObject(); // å¦‚æœ FlowConfig ä¸å­˜åœ¨ï¼Œåˆ™åˆ›å»º
     }
 
     QJsonObject flowConfig = rootObject["FlowConfig"].toObject();
-    flowConfig["TestItems"] = testItemsArray; // ¸üĞÂ TestItems
+    flowConfig["TestItems"] = testItemsArray; // æ›´æ–° TestItems
     rootObject["FlowConfig"] = flowConfig;
 
-    // ½«¸üĞÂºóµÄ JSON Ğ´»ØÎÄ¼ş
+    // å°†æ›´æ–°åçš„ JSON å†™å›æ–‡ä»¶
     jsonDoc.setObject(rootObject);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
-        QMessageBox::warning(this, tr("´íÎó"), tr("ÎŞ·¨±£´æÎÄ¼ş£º%1").arg(filePath));
+        QMessageBox::warning(this, tr("é”™è¯¯"), tr("æ— æ³•ä¿å­˜æ–‡ä»¶ï¼š%1").arg(filePath));
         return;
     }
 
     file.write(jsonDoc.toJson(QJsonDocument::Indented));
     file.close();
 
-    QMessageBox::information(this, tr("³É¹¦"), tr("FlowConfig ÒÑ³É¹¦¸üĞÂµ½ÎÄ¼ş£º%1").arg(filePath));
+    QMessageBox::information(this, tr("æˆåŠŸ"), tr("FlowConfig å·²æˆåŠŸæ›´æ–°åˆ°æ–‡ä»¶ï¼š%1").arg(filePath));
 }
 
 void ConfigDialog::on_btnAddFlow_clicked()
 {
-    // ´´½¨Ò»¸öÄ¬ÈÏµÄ TestItem
+    // åˆ›å»ºä¸€ä¸ªé»˜è®¤çš„ TestItem
     TestItem newItem;
-    newItem.id = ""; // ÔİÊ±²»ÉèÖÃ ID
+    newItem.id = ""; // æš‚æ—¶ä¸è®¾ç½® ID
     newItem.className = "NewClass";
     newItem.alias = "NewAlias";
     newItem.testMode = "Test";
@@ -756,35 +755,35 @@ void ConfigDialog::on_btnAddFlow_clicked()
     newItem.failDo = "";
     newItem.comment = "";
 
-    // Ìí¼Óµ½ testItems ÁĞ±í
+    // æ·»åŠ åˆ° testItems åˆ—è¡¨
     testItems.append(newItem);
 
-    // ÖØĞÂ·ÖÅäËùÓĞ TestItem µÄ ID
+    // é‡æ–°åˆ†é…æ‰€æœ‰ TestItem çš„ ID
     for (int i = 0; i < testItems.size(); ++i)
     {
-        testItems[i].id = QString::number(i + 1); // ID ´Ó 1 ¿ªÊ¼
+        testItems[i].id = QString::number(i + 1); // ID ä» 1 å¼€å§‹
     }
 
-    // ¸üĞÂ±í¸ñ
+    // æ›´æ–°è¡¨æ ¼
     updateTableFlow();
 
-    // ¹ö¶¯µ½×îºóÒ»ĞĞ
+    // æ»šåŠ¨åˆ°æœ€åä¸€è¡Œ
     ui->tableFlow->scrollToBottom();
 }
 
 void ConfigDialog::on_btnInsertFlow_clicked()
 {
-    // »ñÈ¡µ±Ç°Ñ¡ÖĞµÄĞĞ
+    // è·å–å½“å‰é€‰ä¸­çš„è¡Œ
     int currentRow = ui->tableFlow->currentRow();
     if (currentRow < 0)
     {
-        QMessageBox::warning(this, tr("¾¯¸æ"), tr("ÇëÏÈÑ¡ÔñÒª²åÈëµÄÎ»ÖÃ"));
+        QMessageBox::warning(this, tr("è­¦å‘Š"), tr("è¯·å…ˆé€‰æ‹©è¦æ’å…¥çš„ä½ç½®"));
         return;
     }
 
-    // ´´½¨Ò»¸öÄ¬ÈÏµÄ TestItem
+    // åˆ›å»ºä¸€ä¸ªé»˜è®¤çš„ TestItem
     TestItem newItem;
-    newItem.id = ""; // ÔİÊ±²»ÉèÖÃ ID
+    newItem.id = ""; // æš‚æ—¶ä¸è®¾ç½® ID
     newItem.className = "NewClass";
     newItem.alias = "NewAlias";
     newItem.testMode = "Test";
@@ -793,73 +792,73 @@ void ConfigDialog::on_btnInsertFlow_clicked()
     newItem.failDo = "";
     newItem.comment = "";
 
-    // ²åÈëµ½ testItems ÁĞ±í
+    // æ’å…¥åˆ° testItems åˆ—è¡¨
     testItems.insert(currentRow, newItem);
 
-    // ÖØĞÂ·ÖÅäËùÓĞ TestItem µÄ ID
+    // é‡æ–°åˆ†é…æ‰€æœ‰ TestItem çš„ ID
     for (int i = 0; i < testItems.size(); ++i)
     {
-        testItems[i].id = QString::number(i + 1); // ID ´Ó 1 ¿ªÊ¼
+        testItems[i].id = QString::number(i + 1); // ID ä» 1 å¼€å§‹
     }
 
-    // ¸üĞÂ±í¸ñ
+    // æ›´æ–°è¡¨æ ¼
     updateTableFlow();
 
-    // Ñ¡ÖĞ²åÈëµÄĞĞ
+    // é€‰ä¸­æ’å…¥çš„è¡Œ
     ui->tableFlow->selectRow(currentRow);
 }
 
 void ConfigDialog::on_btnDeleteFlow_clicked()
 {
-    // »ñÈ¡µ±Ç°Ñ¡ÖĞµÄĞĞ
+    // è·å–å½“å‰é€‰ä¸­çš„è¡Œ
     int currentRow = ui->tableFlow->currentRow();
     if (currentRow < 0 || currentRow >= testItems.size())
     {
-        QMessageBox::warning(this, tr("¾¯¸æ"), tr("ÇëÏÈÑ¡ÔñÒªÉ¾³ıµÄĞĞ"));
+        QMessageBox::warning(this, tr("è­¦å‘Š"), tr("è¯·å…ˆé€‰æ‹©è¦åˆ é™¤çš„è¡Œ"));
         return;
     }
 
-    // ´Ó testItems ÁĞ±íÖĞÉ¾³ı¶ÔÓ¦µÄÏî
+    // ä» testItems åˆ—è¡¨ä¸­åˆ é™¤å¯¹åº”çš„é¡¹
     testItems.removeAt(currentRow);
 
-    // ¸üĞÂ±í¸ñ
+    // æ›´æ–°è¡¨æ ¼
     updateTableFlow();
 }
 
 void ConfigDialog::on_btnMoveUpFlow_clicked()
 {
     int currentRow = ui->tableFlow->currentRow();
-    if (currentRow <= 0) // Èç¹ûµ±Ç°ĞĞÊÇµÚÒ»ĞĞ»òÎ´Ñ¡ÖĞ£¬ÎŞ·¨ÉÏÒÆ
+    if (currentRow <= 0) // å¦‚æœå½“å‰è¡Œæ˜¯ç¬¬ä¸€è¡Œæˆ–æœªé€‰ä¸­ï¼Œæ— æ³•ä¸Šç§»
     {
-        QMessageBox::warning(this, tr("¾¯¸æ"), tr("ÎŞ·¨ÉÏÒÆ£ºÒÑÊÇµÚÒ»ĞĞ»òÎ´Ñ¡ÖĞ"));
+        QMessageBox::warning(this, tr("è­¦å‘Š"), tr("æ— æ³•ä¸Šç§»ï¼šå·²æ˜¯ç¬¬ä¸€è¡Œæˆ–æœªé€‰ä¸­"));
         return;
     }
 
-    // ½»»» `specItems` ÖĞµÄµ±Ç°ĞĞºÍÉÏÒ»ĞĞ
+    // äº¤æ¢ `specItems` ä¸­çš„å½“å‰è¡Œå’Œä¸Šä¸€è¡Œ
     std::swap(testItems[currentRow], testItems[currentRow - 1]);
 
-    // ¸üĞÂ±í¸ñ
+    // æ›´æ–°è¡¨æ ¼
     updateTableFlow();
 
-    // Ñ¡ÖĞÉÏÒÆºóµÄĞĞ
+    // é€‰ä¸­ä¸Šç§»åçš„è¡Œ
     ui->tableFlow->selectRow(currentRow - 1);
 }
 
 void ConfigDialog::on_btnMoveDownFlow_clicked()
 {
     int currentRow = ui->tableFlow->currentRow();
-    if (currentRow < 0 || currentRow >= testItems.size() - 1) // Èç¹ûµ±Ç°ĞĞÊÇ×îºóÒ»ĞĞ»òÎ´Ñ¡ÖĞ£¬ÎŞ·¨ÏÂÒÆ
+    if (currentRow < 0 || currentRow >= testItems.size() - 1) // å¦‚æœå½“å‰è¡Œæ˜¯æœ€åä¸€è¡Œæˆ–æœªé€‰ä¸­ï¼Œæ— æ³•ä¸‹ç§»
     {
-        QMessageBox::warning(this, tr("¾¯¸æ"), tr("ÎŞ·¨ÏÂÒÆ£ºÒÑÊÇ×îºóÒ»ĞĞ»òÎ´Ñ¡ÖĞ"));
+        QMessageBox::warning(this, tr("è­¦å‘Š"), tr("æ— æ³•ä¸‹ç§»ï¼šå·²æ˜¯æœ€åä¸€è¡Œæˆ–æœªé€‰ä¸­"));
         return;
     }
 
-    // ½»»» `specItems` ÖĞµÄµ±Ç°ĞĞºÍÏÂÒ»ĞĞ
+    // äº¤æ¢ `specItems` ä¸­çš„å½“å‰è¡Œå’Œä¸‹ä¸€è¡Œ
     std::swap(testItems[currentRow], testItems[currentRow + 1]);
 
-    // ¸üĞÂ±í¸ñ
+    // æ›´æ–°è¡¨æ ¼
     updateTableFlow();
 
-    // Ñ¡ÖĞÏÂÒÆºóµÄĞĞ
+    // é€‰ä¸­ä¸‹ç§»åçš„è¡Œ
     ui->tableFlow->selectRow(currentRow + 1);
 }

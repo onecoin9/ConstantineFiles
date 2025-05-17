@@ -26,7 +26,7 @@ void JsonRpcClient::connectToServer(const QString& host, quint16 port)
 {
     if (m_socket->state() == QAbstractSocket::UnconnectedState) {
         qDebug() << "JsonRpcClient: Connecting to" << host << ":" << port;
-        m_buffer.clear(); // Çå¿Õ»º³åÇøÒÔ±ãÐÂÁ¬½Ó
+        m_buffer.clear(); // æ¸…ç©ºç¼“å†²åŒºä»¥ä¾¿æ–°è¿žæŽ¥
         m_socket->connectToHost(host, port);
     }
     else {
@@ -142,12 +142,12 @@ bool JsonRpcClient::sendPacket(const QByteArray& jsonData)
     header.resize(CLIENT_HEADER_LENGTH);
     header.fill(0); // Fill reserved bytes with 0
 
-    // Magic Number (Big Endian)
-    quint32 magic = qToBigEndian(CLIENT_MAGIC_NUMBER);
+    // å°† magic å£°æ˜Žä¸º constexpr
+    static constexpr quint32 magic = qToBigEndian(CLIENT_MAGIC_NUMBER);
     memcpy(header.data(), &magic, 4);
 
     // Header Version (Big Endian)
-    quint16 version = qToBigEndian(CLIENT_HEADER_VERSION);
+    static constexpr quint16 version = qToBigEndian(CLIENT_HEADER_VERSION);
     memcpy(header.data() + 4, &version, 2);
 
     // Payload Length (Big Endian)

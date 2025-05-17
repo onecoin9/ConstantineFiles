@@ -7,7 +7,6 @@
 #include <QPushButton>
 #include<QDebug>
 #include "ui_roleAddDialog.h"
-#pragma execution_character_set("utf-8")
 
 namespace Ui {
     class RoleAddDialog;
