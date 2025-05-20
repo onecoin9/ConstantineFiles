@@ -2,6 +2,8 @@
     "files.associations": {
         "xstring": "cpp",
         "regex": "cpp",
-        "system_error": "cpp"
+        "system_error": "cpp",
+        "chrono": "cpp",
+        "variant": "cpp"
     }
 }

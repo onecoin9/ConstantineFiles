@@ -65,6 +65,9 @@
 #include <map>
 #include <QtGui/qstandarditemmodel.h>
 
+// 8.spdlog
+#include "logmanager.h"
+
 class acroViewTester : public QMainWindow
 {
     Q_OBJECT
@@ -173,6 +176,7 @@ private:
     void showAP8000Controls();
     void openFileApp();
     void openConfigDialog();
+    void spdlogTest();
 
 private slots:
     // UI 事件处理

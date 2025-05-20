@@ -8,10 +8,12 @@ DESTDIR = ../x64/Debug
 RESOURCES += resources.qrc
 QT += axcontainer
 QT += xlsx
+QT += sql
 QT += quick
 CONFIG += debug
 DEFINES += APPLICATION_VERSION=\\\"$(QMAKE_VERSION)\\\"
 LIBS += -L"."
+LIBS+=-lsqlite3
 DEPENDPATH += .
 MOC_DIR += GeneratedFiles/$(ConfigurationName)
 OBJECTS_DIR += debug

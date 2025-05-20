@@ -160,6 +160,12 @@
     <ClCompile Include="handlerController.cpp">
       <Filter>handler</Filter>
     </ClCompile>
+    <ClCompile Include="logManager.cpp">
+      <Filter>Source Files\data</Filter>
+    </ClCompile>
+    <ClCompile Include="testSpdLog.cpp">
+      <Filter>Source Files\controller</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="login.ui">
@@ -336,6 +342,9 @@
     </QtMoc>
     <QtMoc Include="tcphandler.h">
       <Filter>handler</Filter>
+    </QtMoc>
+    <QtMoc Include="logManager.h">
+      <Filter>Header Files\data</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>

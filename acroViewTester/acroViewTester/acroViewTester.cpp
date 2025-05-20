@@ -1,33 +1,39 @@
 #include "acroViewTester.h"
+#include "logManager.h" 
 #include <iostream>
 using namespace std;
 #include "windows.h"
 #include <thread>
+#include "spdlog/spdlog.h"
+#include "spdlog/cfg/env.h"  // support for loading levels from the environment variable
+#include "spdlog/fmt/ostr.h" // support for user defined types
+#include "spdlog/cfg/env.h"
+
 acroViewTester::acroViewTester(QWidget* parent)
     : QMainWindow(parent)
     , settings("AcroView", "AcroViewTester")
 {
-    // 初始化标签页状态数组（假设有6个标签页）
     m_tabsInitialized = QVector<bool>(6, false);
 
-    // 基础UI初始化
+    // 基础UI初始化，这会调用 spdlogTest()，其中 LogManager 被完整初始化
     initEssentials();
 
-    // 延迟200ms初始化当前tab的内容
+    // 将 tableMain 的模型设置为 LogManager 提供的模型
+    ui.tableMain->setModel(LogManager::instance().getLogModel());
+    // 构造函数中不再需要单独调用 initializeDB
+
     QTimer::singleShot(0, this, [this]() {
         initNonEssentials();
-        });
+    });
 
-    // 基础定时器设置
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, [this]() {
         updateTime();
         if (!jsonRpcClient.isConnected()) {
             connectToJsonRpcServer();
         }
-        });
+    });
     timer->start(1000);
-
 }
 
 acroViewTester::~acroViewTester()
@@ -48,17 +54,33 @@ acroViewTester::~acroViewTester()
     tcphanlder.stopServer();
 }
 
+void acroViewTester::spdlogTest()
+{
+    // 使用完整的参数调用 LogManager 初始化
+    // 这个调用会处理文件日志和数据库日志的初始化
+    LogManager::instance().initialize("logs",               // logDir
+                                     "acroViewTesterApp",  // appName
+                                     "logs/acro_tester_logs.db", // dbPath
+                                     1024 * 1024 * 5,      // maxFileSize (示例值: 5MB)
+                                     10);                  // maxFiles (示例值: 10个文件)
+                                     // 请根据 LogManager::initialize 的实际参数调整
+
+    QObject::connect(&LogManager::instance(), &LogManager::aboutToShutdown, []() {
+        LOG_INFO("Performing final cleanup before shutdown...");
+    });
+}
+
 void acroViewTester::initEssentials()
 {
     ui.setupUi(this);
+    spdlogTest(); // LogManager 在这里被初始化
     QList<QTabWidget*> allTabWidgets = findChildren<QTabWidget*>();
     for (QTabWidget* tab : allTabWidgets) {
         tab->setCurrentIndex(0);
     }
-    initStatusBar();      
-    initForm();           
-    loadViewSettings();   
-
+    initStatusBar();
+    initForm();
+    loadViewSettings();
     //tcphanlder.startServer();
     //handlercontroller.sendAlarm();
 }
@@ -76,43 +98,67 @@ void acroViewTester::initNonEssentials()
 
 void acroViewTester::initTabContent(int index)
 {
-    if (m_tabsInitialized[index]) {
+    // 检查 m_tabsInitialized 的索引是否正确。
+    // 如果 case 3 对应 m_tabsInitialized[2]，那么这里应该是 m_tabsInitialized[index]
+    // 但根据您的 case 3 对应 m_tabsInitialized[2]，case 4 对应 m_tabsInitialized[4]
+    // 看起来 m_tabsInitialized 的索引与 tab index 可能存在偏移或不一致。
+    // 假设 m_tabsInitialized 的索引与 case 语句中的预期行为一致：
+    // case 0 -> m_tabsInitialized[0]
+    // case 1 -> m_tabsInitialized[1]
+    // case 3 -> m_tabsInitialized[2]  <-- 注意这个映射
+    // case 4 -> m_tabsInitialized[4]
+    // case 5 -> m_tabsInitialized[5]
+    // 为了清晰，我们直接使用一个映射，或者确保 m_tabsInitialized 的索引与 tab index 一致。
+    // 假设 m_tabsInitialized 的索引就是 tab 的实际索引，除了 case 3 映射到 m_tabsInitialized[2]
+    
+    bool alreadyInitialized = false;
+    if (index == 3) { // 特殊处理 case 3 的 m_tabsInitialized 索引
+        if (m_tabsInitialized.size() > 2 && m_tabsInitialized[2]) {
+            alreadyInitialized = true;
+        }
+    } else if (index < m_tabsInitialized.size() && m_tabsInitialized[index]) {
+        alreadyInitialized = true;
+    }
+
+
+    if (alreadyInitialized) {
+        // 如果是日志标签页 (index == 3)，即使已初始化，也可能需要刷新视图
+        if (index == 4) {
+            LogManager::instance().refreshLogView(); // 确保视图是最新的
+        }
         return;  // 如果已经初始化过，直接返回
     }
 
     switch (index) {
     case 0:  // 主页面
-
         setupTestSites();
         initProductModel();
-        m_tabsInitialized[0] = true;
         setupViceView();
+        if (m_tabsInitialized.size() > 0) m_tabsInitialized[0] = true;
         break;
 
-    case 1:  
-
+    case 1:
         setupTableView();
-
-        setupDataUI();
         setupExpandButton();
         addLegendToGroupBox();
-        m_tabsInitialized[1] = true;
-
+        if (m_tabsInitialized.size() > 1) m_tabsInitialized[1] = true;
         break;
 
-    case 2:  
-
-        addSampleData();
+    case 4:  // 日志页面
+        // LogManager 初始化和 setModel 已移至构造函数
+        setupDataUI(); // 这个函数应该只包含UI相关的设置，不包括模型设置
+        addSampleData(); // 只在第一次加载此tab时添加示例数据
+        if (m_tabsInitialized.size() > 4) m_tabsInitialized[4] = true; // 标记为已初始化
+        LogManager::instance().refreshLogView(); // 确保初次加载时数据正确显示
+        break;
+    case 3:
         updateTableViewAlarmData();
-        m_tabsInitialized[2] = true;
-
+        if (m_tabsInitialized.size() > 2) m_tabsInitialized[1] = true;
         break;
     case 5:
-
         loadComboBoxItems();
         loadDoJobComboBoxItems();
-        m_tabsInitialized[5] = true;
-
+        if (m_tabsInitialized.size() > 5) m_tabsInitialized[5] = true;
         break;
     }
 }
