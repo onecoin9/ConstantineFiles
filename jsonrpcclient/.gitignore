@@ -1,0 +1,77 @@
+# 在项目根目录创建 .gitignore 文件
+# 将 build 文件夹排除在版本控制之外
+
+# 排除整个 build 文件夹及其内容
+build/
+**/build/
+
+# 如果您有特定命名的 build 文件夹
+/build/
+build*/
+
+# 如果您使用 CMake，可能还想排除其他文件
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+```
+
+2. 如果该目录已经被 Git 跟踪，您需要将其从 Git 跟踪列表中移除：
+
+```bash
+git rm -r --cached build/
+git commit -m "Remove build directory from version control"
+```
+
+3. 提交 `.gitignore` 文件以确保规则生效：
+
+```bash
+git add .gitignore
+git commit -m "Add .gitignore with build directory exclusion"
+```
+
+**为什么要排除 build 文件夹？**
+
+1. build 文件夹通常包含编译后的二进制文件和临时文件，与源代码相比体积大
+2. 这些文件可以通过源代码重新生成，无需版本控制
+3. 不同的开发环境可能会生成不同的 build 文件，导致不必要的冲突
+4. 保持仓库干净，仅包含真正需要的源代码文件
+
+如果您正在使用 Visual Studio、Qt Creator 或其他 IDE，可能还需要排除其他特定于 IDE 的临时文件夹和文件。您可以在 `.gitignore` 文件中添加这些规则。# 在项目根目录创建 .gitignore 文件
+# 将 build 文件夹排除在版本控制之外
+
+# 排除整个 build 文件夹及其内容
+build/
+**/build/
+
+# 如果您有特定命名的 build 文件夹
+/build/
+build*/
+
+# 如果您使用 CMake，可能还想排除其他文件
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+```
+
+2. 如果该目录已经被 Git 跟踪，您需要将其从 Git 跟踪列表中移除：
+
+```bash
+git rm -r --cached build/
+git commit -m "Remove build directory from version control"
+```
+
+3. 提交 `.gitignore` 文件以确保规则生效：
+
+```bash
+git add .gitignore
+git commit -m "Add .gitignore with build directory exclusion"
+```
+
+**为什么要排除 build 文件夹？**
+
+1. build 文件夹通常包含编译后的二进制文件和临时文件，与源代码相比体积大
+2. 这些文件可以通过源代码重新生成，无需版本控制
+3. 不同的开发环境可能会生成不同的 build 文件，导致不必要的冲突
+4. 保持仓库干净，仅包含真正需要的源代码文件
+
+如果您正在使用 Visual Studio、Qt Creator 或其他 IDE，可能还需要排除其他特定于 IDE 的临时文件夹和文件。您可以在 `.gitignore` 文件中添加这些规则。
