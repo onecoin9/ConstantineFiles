@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  .flow-container {
+    font-family: Arial, sans-serif;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+  
+  .flow-title {
+    color: #2c3e50;
+    text-align: center;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #3498db;
+    margin-bottom: 30px;
+  }
+  
+  .flow-step {
+    margin: 15px 0;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    position: relative;
+  }
+  
+  .flow-step::after {
+    content: "↓";
+    display: block;
+    text-align: center;
+    margin: 10px 0;
+    color: #7f8c8d;
+    font-size: 18px;
+  }
+  
+  .flow-step:last-child::after {
+    content: "";
+  }
+  
+  .step-title {
+    font-weight: bold;
+    color: #3498db;
+    margin-bottom: 8px;
+    font-size: 18px;
+  }
+  
+  .decision {
+    background-color: #fffbeb;
+    border-left: 4px solid #f1c40f;
+  }
+  
+  .process {
+    background-color: #f0f8ff;
+    border-left: 4px solid #3498db;
+  }
+  
+  .start-end {
+    background-color: #efffef;
+    border-left: 4px solid #2ecc71;
+  }
+  
+  .error {
+    background-color: #ffefef;
+    border-left: 4px solid #e74c3c;
+  }
+  
+  .loop {
+    background-color: #f5f0ff;
+    border-left: 4px solid #9b59b6;
+  }
+  
+  .branch {
+    display: flex;
+    margin: 15px 0;
+  }
+  
+  .branch-path {
+    flex: 1;
+    margin: 0 10px;
+    padding: 10px;
+    background-color: rgba(236, 240, 241, 0.5);
+    border-radius: 5px;
+  }
+  
+  .branch-label {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #7f8c8d;
+  }
+  
+  .sub-steps {
+    margin-left: 30px;
+    padding-left: 15px;
+    border-left: 2px dashed #bdc3c7;
+  }
+</style>
+</head>
+<body>
+
+<div class="flow-container">
+  <h2 class="flow-title">测试计划执行流程图</h2>
+  
+  <div class="flow-step start-end">
+    <div class="step-title">开始执行测试计划</div>
+    <p>初始化测试环境，准备开始执行</p>
+  </div>
+  
+  <div class="flow-step decision">
+    <div class="step-title">检查测试计划是否为空</div>
+    <div class="branch">
+      <div class="branch-path">
+        <div class="branch-label">是</div>
+        <div class="flow-step error">
+          <div class="step-title">显示警告</div>
+          <p>测试计划为空，无法执行</p>
+        </div>
+        <div class="flow-step">
+          <div class="step-title">结束执行</div>
+        </div>
+      </div>
+      
+      <div class="branch-path">
+        <div class="branch-label">否</div>
+        <div class="flow-step process">
+          <div class="step-title">开始遍历每个测试项</div>
+          <p>循环处理每个测试项，共<span id="itemCount">N</span>个</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="flow-step loop">
+    <div class="step-title">测试项处理循环</div>
+    <div class="sub-steps">
+      <div class="flow-step process">
+        <div class="step-title">设置测试环境</div>
+        <div class="sub-steps">
+          <div class="flow-step decision">
+            <div class="step-title">是否低温测试?</div>
+            <div class="branch">
+              <div class="branch-path">
+                <div class="branch-label">是</div>
+                <p>开启冷水阀</p>
+              </div>
+              <div class="branch-path">
+                <div class="branch-label">否</div>
+                <p>跳过冷水阀控制</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="flow-step decision">
+            <div class="step-title">是否设置电源?</div>
+            <div class="branch">
+              <div class="branch-path">
+                <div class="branch-label">是</div>
+                <p>设置电源供电方式</p>
+                <p>设置电压值</p>
+                <p>等待电源稳定</p>
+              </div>
+              <div class="branch-path">
+                <div class="branch-label">否</div>
+                <p>跳过电源模块</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="flow-step decision">
+            <div class="step-title">温箱模式?</div>
+            <div class="branch">
+              <div class="branch-path">
+                <div class="branch-label">定值</div>
+                <p>设置定值温度</p>
+                <p>等待温度稳定</p>
+              </div>
+              <div class="branch-path">
+                <div class="branch-label">斜坡</div>
+                <p>设置斜坡温度</p>
+                <p>等待温度达到目标</p>
+              </div>
+              <div class="branch-path">
+                <div class="branch-label">不控制</div>
+                <p>跳过温度控制</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="flow-step process">
+            <div class="step-title">读取设备ID</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="flow-step decision">
+        <div class="step-title">是否执行功能测试?</div>
+        <div class="branch">
+          <div class="branch-path">
+            <div class="branch-label">是</div>
+            <div class="flow-step process">
+              <div class="step-title">执行ChipTest Flow流程</div>
+              <div class="sub-steps">
+                <div class="flow-step">
+                  <div class="step-title">生成ChipTest Flow</div>
+                </div>
+                
+                <div class="flow-step loop">
+                  <div class="step-title">遍历Flow测试项</div>
+                  <div class="sub-steps">
+                    <div class="flow-step decision">
+                      <div class="step-title">测试项是否Skip?</div>
+                      <div class="branch">
+                        <div class="branch-path">
+                          <div class="branch-label">是</div>
+                          <p>跳到下一个Flow测试项</p>
+                        </div>
+                        <div class="branch-path">
+                          <div class="branch-label">否</div>
+                          <div class="flow-step">
+                            <div class="step-title">准备测试环境</div>
+                          </div>
+                          <div class="flow-step">
+                            <div class="step-title">执行测试项</div>
+                          </div>
+                          <div class="flow-step decision">
+                            <div class="step-title">测试是否通过?</div>
+                            <div class="branch">
+                              <div class="branch-path">
+                                <div class="branch-label">通过</div>
+                                <p>执行PassDo动作</p>
+                              </div>
+                              <div class="branch-path">
+                                <div class="branch-label">失败</div>
+                                <p>执行FailDo动作</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="flow-step decision">
+                            <div class="step-title">需要循环执行?</div>
+                            <div class="branch">
+                              <div class="branch-path">
+                                <div class="branch-label">是</div>
+                                <p>执行剩余循环</p>
+                              </div>
+                              <div class="branch-path">
+                                <div class="branch-label">否</div>
+                                <p>继续下一项</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="flow-step">
+                  <div class="step-title">Flow执行完成</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="branch-path">
+            <div class="branch-label">否</div>
+            <p>跳过功能测试</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="flow-step decision">
+        <div class="step-title">是否需要数据采集?</div>
+        <div class="branch">
+          <div class="branch-path">
+            <div class="branch-label">是</div>
+            <div class="flow-step">
+              <div class="step-title">开始数据采集</div>
+            </div>
+            <div class="flow-step">
+              <div class="step-title">执行采样循环</div>
+            </div>
+            <div class="flow-step">
+              <div class="step-title">保存采集数据</div>
+            </div>
+          </div>
+          <div class="branch-path">
+            <div class="branch-label">否</div>
+            <p>跳过数据采集</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="flow-step">
+        <div class="step-title">处理下一个测试项</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="flow-step decision">
+    <div class="step-title">所有测试项结束?</div>
+    <div class="branch">
+      <div class="branch-path">
+        <div class="branch-label">否</div>
+        <p>继续处理下一个测试项</p>
+      </div>
+      <div class="branch-path">
+        <div class="branch-label">是</div>
+        <div class="flow-step process">
+          <div class="step-title">测试计划执行完成</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="flow-step start-end">
+    <div class="step-title">显示完成信息</div>
+    <p>测试计划执行完成，显示结果信息</p>
+  </div>
+  
+  <div class="flow-step start-end">
+    <div class="step-title">结束执行</div>
+  </div>
+</div>
+
+</body>
+</html>

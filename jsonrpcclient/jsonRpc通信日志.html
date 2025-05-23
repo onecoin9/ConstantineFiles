@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON-RPC 通信日志分析</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #2980b9;
+            margin-top: 25px;
+        }
+        pre {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            overflow: auto;
+        }
+        code {
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            color: #333;
+        }
+        .json {
+            color: #0066cc;
+        }
+        .log {
+            color: #555;
+        }
+        .success {
+            color: #27ae60;
+        }
+        .error {
+            color: #e74c3c;
+        }
+        .debug {
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+        .notification {
+            background-color: #f3f9ff;
+            border-left: 4px solid #2980b9;
+        }
+        /* 新增JSON格式化样式 */
+        .json-key {
+            color: #881391;
+        }
+        .json-value {
+            color: #1c00cf;
+        }
+        .json-string {
+            color: #c41a16;
+        }
+        .json-boolean {
+            color: #0000ff;
+        }
+        .json-number {
+            color: #1c00cf;
+        }
+        /* 新增请求样式 */
+        .request {
+            background-color: #f0fff0;
+            border-left: 4px solid #2ecc71;
+        }
+        .timestamp {
+            color: #7f8c8d;
+            font-size: 0.85em;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <h1>JSON-RPC 通信日志分析</h1>
+
+    <h2>1. 连接与初始化</h2>
+    <pre><code class="log">JsonRpcClient: Connected to server.
+Successfully connected!</code></pre>
+    <p>客户端成功连接到服务器，准备开始通信。</p>
+
+    <h2>2. 设备扫描请求</h2>
+    <pre class="request"><code class="log timestamp">[2025-05-21 16:18:58.447]# 客户端发送<<<</code></pre>
+    <pre class="request"><code class="json">{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "SiteScanAndConnect",
+    "params": {}
+}</code></pre>
+    <pre><code class="log">JsonRpcClient: Sent request id= 1 method= "SiteScanAndConnect"
+Sending SiteScanAndConnect...</code></pre>
+    <pre><code class="json">{
+    "id": 1,
+    "jsonrpc": "2.0",
+    "result": {
+        "message": "Scan initiated successfully. Device discovery notifications will be sent."
+    }
+}</code></pre>
+    <pre><code class="log">JsonRpcClient: Received standard result for id= 1</code></pre>
+    <p>客户端发送了一个 <code>SiteScanAndConnect</code> 请求，ID 为 1。服务器返回成功响应，表明扫描已启动，设备发现通知将会陆续发送。</p>
+
+    <h2>3. 设备发现通知</h2>
+    <p>服务器发送了多个 <code>DeviceDiscovered</code> 通知，每个通知包含设备的详细信息。以下是一个通知示例：</p>
+    <pre class="notification"><code class="json">{
+    "jsonrpc": "2.0",
+    "method": "DeviceDiscovered",
+    "params": {
+        "device": {
+            "chainID": 1,
+            "dpsFpgaVersion": "0x2002285A",
+            "dpsFwVersion": "V2.2.0006A",
+            "firmwareVersion": "2.02.031",
+            "firmwareVersionDate": "20250111",
+            "fpgaLocation": "Normal",
+            "fpgaVersion": "0x2030121A",
+            "hopNum": 0,
+            "ip": "192.168.71.23",
+            "isLastHop": true,
+            "linkNum": -1,
+            "mac": "00:3A:22:00:01:02",
+            "mainBoardInfo": {
+                "hardwareOEM": "ACVIEW",
+                "hardwareSN": "A06U24120700012",
+                "hardwareUID": "CCE3DF00A00C0672",
+                "hardwareVersion": "0100-010000-010000-010000"
+            },
+            "muAppVersion": "2.02.029",
+            "muAppVersionDate": "20240111",
+            "muLocation": "Normal",
+            "port": "8080",
+            "siteAlias": "Site01"
+        },
+        "ipHop": "192.168.71.23:0"
+    }
+}</code></pre>
+    <pre><code class="log">JsonRpcClient: Received notification with method: "DeviceDiscovered"</code></pre>
+    <p>通知内容显示发现了一个设备，包含很多硬件和软件信息：</p>
+    <ul>
+        <li>设备 IP: 192.168.71.23，端口: 8080</li>
+        <li>MAC 地址: 00:3A:22:00:01:02</li>
+        <li>固件版本: 2.02.031 (20250111)</li>
+        <li>FPGA 版本: 0x2030121A</li>
+        <li>硬件序列号: A06U24120700012</li>
+        <li>硬件 UID: CCE3DF00A00C0672</li>
+    </ul>
+    <p>日志显示客户端收到了多个相同的设备发现通知，可能是由于网络原因导致重复接收。</p>
+
+    <h2>4. 项目加载请求与响应</h2>
+    <pre class="request"><code class="log timestamp">[2025-05-21 16:18:58.447]# 客户端发送 <<<</code></pre>
+    <pre class="request"><code class="json">{
+    "id": 2,
+    "jsonrpc": "2.0",
+    "method": "LoadProject",
+    "params": {
+        "path": "D:/AG06-V2.2.102-250412testJsonRpc/task",
+        "taskFileName": "default.actask"
+    }
+}</code></pre>
+    <pre><code class="log">JsonRpcClient: Sent request id= 2 method= "LoadProject"</code></pre>
+    <pre><code class="json">{
+    "id": 2,
+    "jsonrpc": "2.0",
+    "result": {
+        "message": "LoadProject"
+    }
+}</code></pre>
+    <pre><code class="log">JsonRpcClient: Received standard result for id= 2</code></pre>
+    <p>客户端发送了 <code>LoadProject</code> 请求，ID 为 2。服务器返回了初步确认响应，表明收到了加载项目的请求。客户端提供了项目路径和任务文件名。</p>
+
+    <h2>5. 项目加载结果通知</h2>
+    <pre class="notification"><code class="json">{
+    "jsonrpc": "2.0",
+    "method": "LoadProjectResult",
+    "params": {
+        "cmd": "LoadProject",
+        "data": "success"
+    }
+}</code></pre>
+    <pre><code class="log">JsonRpcClient: Received notification with method: "LoadProjectResult"
+Project loaded successfully</code></pre>
+    <p>服务器通过通知告知项目加载成功。客户端输出了 <span class="success">"Project loaded successfully"</span> 消息。</p>
+
+    <h2>6. 执行任务请求与响应</h2>
+    <pre class="request"><code class="log timestamp">[2025-05-21 16:19:00.435]#客户端发送 <<<</code></pre>
+    <pre class="request"><code class="json">{
+    "id": 3,
+    "jsonrpc": "2.0",
+    "method": "DoJob",
+    "params": {
+        "BPUID": 8,
+        "CmdFlag": 0,
+        "CmdID": 1047,
+        "PortID": 0,
+        "SKTEn": 65535,
+        "docmdSeqJson": {
+            "CmdID": "0",
+            "CmdRun": "",
+            "CmdSequencesGroupCnt": 1
+        },
+        "nHopNum": 0,
+        "strIP": ""
+    }
+}</code></pre>
+    <pre><code class="log">Sending DoJob...
+JsonRpcClient: Sent request id= 3 method= "DoJob"</code></pre>
+    <pre><code class="json">{
+    "id": 3,
+    "jsonrpc": "2.0",
+    "result": {
+        "message": "DoJob request accepted.",
+        "status": "accepted",
+        "taskId": "f61d9373-2d68-4ee1-8369-826a989f6c58"
+    }
+}</code></pre>
+    <pre><code class="log">JsonRpcClient: Received standard result for id= 3</code></pre>
+    <p>客户端发送了 <code>DoJob</code> 请求，ID 为 3。该请求包含复杂的参数结构，包括BPUID、命令ID、端口ID等。服务器返回了接受请求的响应，提供了任务 ID：<code>f61d9373-2d68-4ee1-8369-826a989f6c58</code>。</p>
+
+    <h2>7. 自定义命令请求与响应</h2>
+    <pre class="request"><code class="log timestamp">[2025-05-21 16:19:02.600]# 客户端发送 <<<</code></pre>
+    <pre class="request"><code class="json">{
+    "id": 4,
+    "jsonrpc": "2.0",
+    "method": "DoCustom",
+    "params": {
+        "BPUID": 8,
+        "CmdFlag": 0,
+        "CmdID": 1424,
+        "PortID": 0,
+        "SKTEn": 65535,
+        "docmdSeqJson": {
+            "CmdID": "0",
+            "CmdRun": "",
+            "CmdSequencesGroupCnt": 1
+        },
+        "nHopNum": 0,
+        "strIP": ""
+    }
+}</code></pre>
+    <pre><code class="log">JsonRpcClient: Sent request id= 4 method= "DoCustom"</code></pre>
+    <pre><code class="json">{
+    "id": 4,
+    "jsonrpc": "2.0",
+    "result": {
+        "message": "DoCustom request accepted.",
+        "status": "accepted",
+        "taskId": "5505607d-8b44-496b-88e4-e03bd6eee65d"
+    }
+}</code></pre>
+    <pre><code class="log">JsonRpcClient: Received standard result for id= 4</code></pre>
+    <p>客户端发送了 <code>DoCustom</code> 请求，ID 为 4。参数结构与DoJob类似，但命令ID不同。服务器返回了接受请求的响应，提供了任务 ID：<code>5505607d-8b44-496b-88e4-e03bd6eee65d</code>。</p>
+
+    <h2>8. 获取项目信息</h2>
+    <pre class="request"><code class="log timestamp">[2025-05-21 16:19:04.501]# 客户端发送<<<</code></pre>
+    <pre class="request"><code class="json">{
+    "id": 5,
+    "jsonrpc": "2.0",
+    "method": "GetProjectInfo",
+    "params": {}
+}</code></pre>
+    <pre><code class="log">Sending GetProjectInfo...
+JsonRpcClient: Sent request id= 5 method= "GetProjectInfo"</code></pre>
+    <pre><code class="json">{
+    "id": 5,
+    "jsonrpc": "2.0",
+    "result": {
+        "message": "Project info retrieved.",
+        "projects": [
+            {
+                "key": "D:/AG06-V2.2.102-250412testJsonRpc/project/default.eapr",
+                "pair_first_string": "0xffff"
+            }
+        ],
+        "status": "GetProjectInfo called"
+    }
+}</code></pre>
+    <pre><code class="log">JsonRpcClient: Received standard result for id= 5</code></pre>
+    <p>客户端发送了 <code>GetProjectInfo</code> 请求，ID 为 5。请求参数为空对象。服务器返回了项目信息，包含项目路径（<code>D:/AG06-V2.2.102-250412testJsonRpc/project/default.eapr</code>）和相关参数。</p>
+
+    <h2>9. 获取扩展项目信息</h2>
+    <pre class="request"><code class="log timestamp">[2025-05-21 16:19:06.165]# 客户端发送<<<</code></pre>
+    <pre class="request"><code class="json">{
+    "id": 6,
+    "jsonrpc": "2.0",
+    "method": "GetProjectInfoExt",
+    "params": {
+        "project_url": "C:/Users/Administrator/Desktop/XT422/AIPE/Build/project/default.eapr"
+    }
+}</code></pre>
+    <pre><code class="log">Sending GetProgrammerInfo...
+JsonRpcClient: Sent request id= 6 method= "GetProjectInfoExt"</code></pre>
+    <pre><code class="json">{
+    "id": 6,
+    "jsonrpc": "2.0",
+    "result": {
+        "message": "GetProjectInfoExt"
+    }
+}</code></pre>
+    <pre><code class="log">JsonRpcClient: Received standard result for id= 6</code></pre>
+    <pre><code class="json">{
+    "data": {
+        "message": "GetProjectInfoExt"
+    },
+    "status": "GetProjectInfoExt Success"
+}</code></pre>
+    <p>客户端发送了 <code>GetProjectInfoExt</code> 请求，ID 为 6，并指定了特定的项目URL。服务器返回了简单的确认消息，客户端又收到并处理了更详细的数据包含状态信息。</p>
+
+    <h2>10. 获取SKT信息</h2>
+    <pre class="request"><code class="log timestamp">[2025-05-21 16:19:08.335]# 客户端发送 <<<</code></pre>
+    <pre class="request"><code class="json">{
+    "id": 7,
+    "jsonrpc": "2.0",
+    "method": "GetSKTInfo",
+    "params": {}
+}</code></pre>
+    <pre><code class="log">JsonRpcClient: Sent request id= 7 method= "GetSKTInfo"</code></pre>
+    <pre><code class="json error">{
+    "error": {
+        "code": -32601,
+        "message": "Method not found: The method 'GetSKTInfo' does not exist or is not available."
+    },
+    "id": 7,
+    "jsonrpc": "2.0"
+}</code></pre>
+    <pre><code class="log error">JsonRpcClient: Received error for id= 7 code= -32601 message= "Method not found: The method 'GetSKTInfo' does not exist or is not available."
+GetSKTInfo Error: -32601 "Method not found: The method 'GetSKTInfo' does not exist or is not available." QJsonValue(undefined)</code></pre>
+    <p>客户端发送了 <code>GetSKTInfo</code> 请求，ID 为 7。服务器返回了错误响应，错误代码 <code>-32601</code>，表示该方法不存在或不可用。客户端正确地捕获并处理了这个错误。</p>
+
+    <h2>11. 发送 UUID 请求与响应</h2>
+    <pre><code class="log">JsonRpcClient: Sent request id= 8 method= "SendUUID"</code></pre>
+    <pre><code class="json">{
+    "id": 8,
+    "jsonrpc": "2.0",
+    "result": {
+        "message": "SendUUID"
+    }
+}</code></pre>
+    <pre><code class="log success">JsonRpcClient: Received standard result for id= 8
+SendUUID Success Result: {"message": "SendUUID"}</code></pre>
+    <p>客户端发送了 <code>SendUUID</code> 请求，ID 为 8。服务器返回了成功响应，客户端输出了成功信息。</p>
+    <script>
+        // 为页面加载时添加JSON格式化显示效果
+        document.addEventListener('DOMContentLoaded', function() {
+            const jsonElements = document.querySelectorAll('pre code.json');
+            jsonElements.forEach(function(element) {
+                try {
+                    const jsonText = element.textContent;
+                    const jsonObj = JSON.parse(jsonText);
+                    element.textContent = JSON.stringify(jsonObj, null, 4);
+                } catch (e) {
+                    console.error('JSON解析错误', e);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
